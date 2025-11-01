@@ -23,13 +23,17 @@
       </div>
     </div>
   </section>
-  <AdoptSlider />
+  <!-- <AdoptSlider /> -->
+  <ReportKitten />
+  <NewsSection />
 
 </template>
 
 <script setup>
   // 1. Import komponen slider-nya
   import AdoptSlider from '@/components/AdoptSlider.vue' 
+import NewsSection from '@/components/NewsSection.vue';
+import ReportKitten from '@/components/ReportKitten.vue';
   // (@ adalah shortcut untuk folder 'src')
 </script>
 
