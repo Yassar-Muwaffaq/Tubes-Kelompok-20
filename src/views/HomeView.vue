@@ -26,6 +26,8 @@
   <!-- <AdoptSlider /> -->
   <ReportKitten />
   <NewsSection />
+  <FAQ />
+  <ContactUs />
 
 </template>
 
@@ -34,6 +36,8 @@
   import AdoptSlider from '@/components/AdoptSlider.vue' 
 import NewsSection from '@/components/NewsSection.vue';
 import ReportKitten from '@/components/ReportKitten.vue';
+import FAQ from '@/components/FAQ.vue';
+import ContactUs from '@/components/ContactUs.vue';
   // (@ adalah shortcut untuk folder 'src')
 </script>
 
