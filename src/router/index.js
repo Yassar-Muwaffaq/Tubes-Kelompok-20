@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // 1. Import halaman HomeView yang baru kamu buat
 import HomeView from '../views/HomeView.vue'
+import DashboardView from '@/views/DashboardView.vue'
+import AdoptNowView from '@/views/AdoptNowView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,7 +11,22 @@ const router = createRouter({
       path: '/', // Ini adalah URL root (halaman utama)
       name: 'home',
       component: HomeView // 2. Tampilkan komponen HomeView saat URL '/' dibuka
-    }
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView
+    },
+    {
+      path: '/adopt-now',
+      name: 'adopt-now',
+      component: AdoptNowView
+    },
+    {
+      path:'/terms',
+      name:'terms',
+      component: () => import('../components/TermAndCondition.vue')
+    },
     // Kamu bisa menambahkan halaman lain di sini nanti, contoh:
     // {
     //   path: '/about',

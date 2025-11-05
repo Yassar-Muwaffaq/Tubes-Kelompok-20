@@ -30,14 +30,14 @@
   BAGIAN 5 FAQ
   ===========*/
 .faq-section {
-  background-color: #6CD4FF;
+  background-color: oklch(96.7% 0.003 264.542);
   padding: 40px 10px;
   width: 100%;
   margin: 0;
 }
 
 .faq-section h2 {
-  background-color: #EBE7DF;
+  background-color: oklch(76.9% 0.188 70.08);
   display: inline-block;
   padding: 10px 20px;
   border-radius: 15px;
@@ -53,12 +53,12 @@
 }
 
 .faq-item {
-  background-color: #FFBA6B;
+  background-color: oklch(92.3% 0.003 48.717);
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 4px rgba(0,0,0,0.05);
+  box-shadow: 4px 4px 4px rgba(0,0,0,0.3);
   max-width: 1400px;
 }
 </style>
