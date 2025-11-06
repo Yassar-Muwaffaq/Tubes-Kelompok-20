@@ -78,9 +78,9 @@
       <!-- ❤️ Favorites Button -->
       <div class="relative favorites-container flex-shrink-0 ml-auto">
         <button
-          @click.stop="showFavoritesTooltip = !showFavoritesTooltip"
+          @click.stop="toggleFavoritesTooltip"
           class="p-2 sm:p-3 bg-light-blue rounded-md border border-transparent hover:border-light-orange flex items-center justify-center text-orange-500 relative"
-          :class="{'bg-orange-200': showFavoritesTooltip}"
+          :class="{ 'bg-orange-200': showFavoritesTooltip }"
           title="Lihat Kucing Favorit"
         >
           <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -90,7 +90,6 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-
           <span
             v-if="favorites.length > 0"
             class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center"
@@ -100,45 +99,41 @@
         </button>
 
         <!-- Tooltip Favorite List -->
-        <div
-          v-if="showFavoritesTooltip"
-          class="absolute right-0 mt-2 w-72 max-h-80 overflow-y-auto bg-white rounded-lg shadow-xl p-4 z-20 border border-gray-100"
-        >
-          <h3 class="font-bold text-primary-text mb-3 border-b pb-2">Kucing Favorit Anda:</h3>
+        <transition name="fade-slide">
+          <div
+            v-if="showFavoritesTooltip"
+            class="absolute right-0 sm:right-auto sm:-left-60 sm:ml-2 mt-2 w-72 max-h-80 overflow-y-auto bg-white rounded-lg shadow-xl p-4 z-20 border border-gray-100"
+          >
+            <h3 class="font-bold text-primary-text mb-3 border-b pb-2">Kucing Favorit Anda:</h3>
 
-          <div v-if="favorites.length > 0" class="space-y-3">
-            <div
-              v-for="cat in favorites"
-              :key="'fav-' + cat.id"
-              class="flex items-center space-x-3 hover:bg-gray-50 p-1 rounded-lg"
-            >
-              <img
-                :src="cat.imageUrl"
-                class="w-10 h-10 object-cover rounded-md border-2 border-dark-bg"
-                :alt="cat.name"
-              />
-              <div class="flex-grow">
-                <p class="text-primary-text font-semibold truncate">{{ cat.name }}</p>
-                <p class="text-xs text-gray-500">{{ cat.breed }}</p>
-              </div>
-              <button
-                @click="toggleFavorite(cat)"
-                class="text-red-500 hover:text-red-700 transition duration-150"
-                title="Hapus dari Favorit"
+            <div v-if="favorites.length > 0" class="space-y-3">
+              <div
+                v-for="cat in favorites"
+                :key="'fav-' + cat.id"
+                class="flex items-center space-x-3 hover:bg-gray-50 p-1 rounded-lg"
               >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </button>
+                <img
+                  :src="cat.imageUrl"
+                  class="w-10 h-10 object-cover rounded-md border-2 border-dark-bg"
+                  :alt="cat.name"
+                />
+                <div class="flex-grow">
+                  <p class="text-primary-text font-semibold truncate">{{ cat.name }}</p>
+                  <p class="text-xs text-gray-500">{{ cat.breed }}</p>
+                </div>
+                <button
+                  @click="toggleFavorite(cat)"
+                  class="text-red-500 hover:text-red-700 transition duration-150"
+                  title="Hapus dari Favorit"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
-          </div>
 
-          <p v-else class="text-gray-500 text-sm italic py-2">Belum ada kucing favorit.</p>
-        </div>
+            <p v-else class="text-gray-500 text-sm italic py-2">Belum ada kucing favorit.</p>
+          </div>
+        </transition>
       </div>
     </div>
 
@@ -179,7 +174,7 @@
             <p>📍 {{ cat.location }}</p>
           </div>
           <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ cat.description }}</p>
-          <button
+          <button @click="$router.push('/adopt-now/'+cat.id)"
             class="w-full text-primary-text font-semibold py-2 rounded-lg transition duration-150 shadow-md bg-[#f7f1e8] hover:bg-[#6CD4FF] mobile-blue-btn"
           >
             Adopsi Sekarang
@@ -201,6 +196,8 @@ const showSearch = ref(false)
 const isTransitioning = ref(false)
 const searchInput = ref(null)
 const isMobile = ref(false)
+const showFavoritesTooltip = ref(false)
+const favorites = ref([])
 
 const handleResize = () => (isMobile.value = window.innerWidth < 768)
 onMounted(() => {
@@ -213,28 +210,79 @@ const toggleSearch = () => {
   if (!isMobile.value) return
   isTransitioning.value = true
   if (!showSearch.value) {
+    // Hide filter before expanding search
+    showSearch.value = true
     setTimeout(() => {
-      showSearch.value = true
-      setTimeout(() => {
-        searchInput.value?.focus()
-        isTransitioning.value = false
-      }, 350)
-    }, 250)
+      searchInput.value?.focus()
+      isTransitioning.value = false
+    }, 400)
   } else {
+    // Close search and show filter smoothly
     showSearch.value = false
-    setTimeout(() => (isTransitioning.value = false), 350)
+    setTimeout(() => (isTransitioning.value = false), 400)
   }
+}
+
+const toggleFavoritesTooltip = () => {
+  showFavoritesTooltip.value = !showFavoritesTooltip.value
 }
 
 const searchQuery = ref("")
 const selectedBreed = ref("Semua Ras")
 const selectedLocation = ref("Semua Lokasi")
-const showFavoritesTooltip = ref(false)
 
 const catList = ref([
-  { id: 1, name: "MILO", age: "7 Bulan", breed: "Persian", location: "Bandung", description: "Aktif dan ramah.", imageUrl: "https://placehold.co/600x400/FFB6C1/1F2937?text=MILO", isFavorite: false },
-  { id: 2, name: "CIMOL", age: "1 Tahun", breed: "Persian", location: "Cimahi", description: "Tenang dan penyayang.", imageUrl: "https://placehold.co/600x400/B0E0E6/1F2937?text=CIMOL", isFavorite: false },
-  { id: 3, name: "CICA", age: "1.5 Tahun", breed: "Shorthair", location: "Jakarta Utara", description: "Lucu dan sehat.", imageUrl: "https://placehold.co/600x400/AFEEEE/1F2937?text=CICA", isFavorite: false },
+  { id: 1, 
+    name: "MILO", 
+    age: "7 Bulan",
+     breed: "Persian",
+      location: "Bandung",
+       description: "Aktif dan ramah.",
+        imageUrl: "https://placehold.co/600x400/FFB6C1/1F2937?text=MILO", isFavorite: false },
+  {
+    id: 2,
+    name: "Luna",
+    age: "1 Tahun",
+    breed: "British Shorthair",
+    location: "Jakarta",
+    description:
+      "Luna memiliki bulu abu-abu halus dan mata bulat besar. Dia tenang, manja, dan suka tidur di pangkuan.",
+    imageUrl: "https://placehold.co/600x400/FFB6C1/1F2937?text=Luna",
+    isFavorite: false,
+  },
+  {
+    id: 3,
+    name: "Oreo",
+    age: "5 Bulan",
+    breed: "Domestic Short Hair",
+    location: "Surabaya",
+    description:
+      "Oreo adalah kucing lucu penuh energi yang suka bermain bola dan mengejar mainan.",
+    imageUrl: "https://placehold.co/600x400/FFB6C1/1F2937?text=Oreo",
+    isFavorite: false,
+  },
+  {
+    id: 4,
+    name: "Simba",
+    age: "2 Tahun",
+    breed: "Maine Coon",
+    location: "Yogyakarta",
+    description:
+      "Simba punya tubuh besar tapi berhati lembut. Cocok untuk rumah dengan ruang luas.",
+    imageUrl: "https://placehold.co/600x400/FFB6C1/1F2937?text=Simba",
+    isFavorite: false,
+  },
+  {
+    id: 5,
+    name: "Nala",
+    age: "9 Bulan",
+    breed: "Siamese",
+    location: "Denpasar",
+    description:
+      "Nala sangat komunikatif dan suka bermanja. Sudah divaksin lengkap dan steril.",
+    imageUrl: "https://placehold.co/600x400/FFB6C1/1F2937?text=Nala",
+    isFavorite: false,  
+  },
 ])
 
 const breeds = ["Semua Ras", "Persian", "Shorthair"]
@@ -249,8 +297,6 @@ const filteredCats = computed(() =>
       (selectedLocation.value === "Semua Lokasi" || cat.location === selectedLocation.value)
   )
 )
-
-const favorites = ref([])
 
 const toggleFavorite = (cat) => {
   cat.isFavorite = !cat.isFavorite
@@ -280,11 +326,11 @@ watch(showFavoritesTooltip, (val) => {
 }
 .fade-slide-enter-from {
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateX(15px);
 }
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateX(-20px);
+  transform: translateX(-15px);
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -300,12 +346,20 @@ watch(showFavoritesTooltip, (val) => {
 }
 
 @media (max-width: 767px) {
+  .favorites-container {
+    margin-left: auto;
+  }
   .mobile-blue-btn {
     background-color: #6cd4ff !important;
     color: white !important;
   }
   .mobile-blue-btn:hover {
     background-color: #5ac8fa !important;
+  }
+  select,
+  input {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
   }
 }
 </style>

@@ -1,28 +1,38 @@
 <template>
-  <section id="hero-area" class="header-area header-eight ">
-    <div class="container m-auto flex items-center justify-center">
-      <div class="row flex items-center justify-center w-screen">
-        <div class="col-lg-6 col-md-12 col-12">
-          <div class="header-content">
-            <h1>BRING HOME THE PURRFECT FRIEND</h1>
-            <p>
-              We take care the stray cat and treat them so you can
-              adopt them safely
-            </p>
-            <div class="button">
-              <a href="/adoption" class="btn primary-btn">Adopt</a>
-              <a href="javascript:void(0)" class="community-link">Join our community</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12 col-12">
-          <div class="header-image-wrapper w-200 m-0 "> 
-            <img src="/images/header/Vector.png" alt="Cat" class="hero-cat-image" />
-          </div>
-          </div>
+<section id="hero-area" class="relative flex flex-col-reverse lg:flex-row items-center min-h-screen overflow-hidden bg-white">
+  <!-- Konten kiri -->
+  <div class="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 py-12 lg:py-0 text-center lg:text-left z-10">
+    <div class="header-content max-w-lg mx-auto lg:mx-0">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 leading-tight mb-4">
+        BRING HOME THE PURRFECT FRIEND
+      </h1>
+      <p class="text-gray-600 text-sm sm:text-base mb-6">
+        We take care of stray cats and treat them so you can adopt them safely.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center lg:justify-start">
+        <a href="/adoption"
+           class="px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-md">
+          Adopt
+        </a>
+        <a href="javascript:void(0)"
+           class="text-orange-500 font-medium underline hover:text-orange-600">
+          Join our community
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- Gambar kanan -->
+  <div class="w-full lg:w-1/2 flex justify-center lg:justify-end m-0 p-0">
+    <img
+      src="/images/header/Vector.png"
+      alt="Cat"
+      class="hero-cat-image w-full lg:w-auto lg:h-screen object-contain lg:object-cover m-0 p-0"
+    />
+  </div>
+</section>
+
+
   <AdoptSlider />
   <ReportKitten />
   <NewsSection />
@@ -103,6 +113,7 @@ import AboutUs from '@/components/AboutUs.vue';
   .header-eight .hero-cat-image {
     width: 100%;
     position: relative; 
+    /* right: -10px; */
     z-index: 2; 
   }
   .header-eight .header-content {
@@ -160,7 +171,7 @@ import AboutUs from '@/components/AboutUs.vue';
   .header-eight .community-link {
     color: var(--dark-2); 
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-decoration: none; 
   }
   .header-eight .community-link:hover {

@@ -40,7 +40,7 @@
           alt="Magnifying glass"
           class="absolute left-0 -ml-10 top-1/2 -translate-y-1/2 w-15 sm:w-10 max-sm:w-9"
         />
-        <button
+        <button @click="$router.push('/report-rescue')"
           class="bg-red-600 hover:bg-red-700
           text-black font-semibold
           rounded-xl!

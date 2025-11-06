@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Navbar />
+    <!-- <Navbar /> -->
 
     <!-- Hero Section -->
-    <section class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-6">
+    <section class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-6 mt-10">
       <div class="max-w-5xl mx-auto text-center">
         <h1 class="text-5xl font-extrabold text-gray-900 mb-6">
           Adopt Your New Furry Friend 🐾
@@ -14,14 +14,19 @@
       </div>
 
       <!-- Cat Description -->
-      <div class="max-w-4xl mx-auto px-4 pt-12 pb-10 flex items-start space-x-6">
+      <div
+        v-if="cat"
+        class="max-w-4xl mx-auto px-4 pt-12 pb-10 flex items-start space-x-6"
+      >
         <div class="mt-16 space-y-4">
           <div class="w-6 h-6 bg-gray-300 rounded-full opacity-50"></div>
           <div class="w-4 h-4 bg-gray-300 rounded-full opacity-70 ml-2"></div>
         </div>
 
         <div class="flex-grow">
-          <h2 class="text-3xl font-extrabold text-gray-800 mb-4">{{ cat.name }}</h2>
+          <h2 class="text-3xl font-extrabold text-gray-800 mb-4">
+            {{ cat.name }}
+          </h2>
 
           <div
             class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-6 rounded-lg shadow-md flex items-start space-x-4"
@@ -29,58 +34,13 @@
             <div class="flex-grow space-y-2">
               <div class="flex items-center space-x-4 text-sm font-semibold">
                 <span class="flex items-center">
-                  <svg
-                    class="h-4 w-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  {{ cat.age }}
+                  ⏰ {{ cat.age }}
                 </span>
                 <span class="flex items-center">
-                  <svg
-                    class="h-4 w-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                    />
-                  </svg>
-                  {{ cat.breed }}
+                  🐱 {{ cat.breed }}
                 </span>
                 <span class="flex items-center">
-                  <svg
-                    class="h-4 w-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  {{ cat.location }}
+                  📍 {{ cat.location }}
                 </span>
               </div>
               <p class="text-sm italic mt-2">{{ cat.description }}</p>
@@ -94,8 +54,20 @@
         </div>
       </div>
 
+      <!-- Jika id tidak ditemukan -->
+      <div v-else class="text-center py-16 text-gray-500">
+        <p class="text-xl font-semibold">Kucing tidak ditemukan 😿</p>
+        <button
+          @click="$router.push('/adoption')"
+          class="mt-4 px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition"
+        >
+          Kembali ke daftar adopsi
+        </button>
+      </div>
+
       <!-- Adoption Form -->
       <div
+        v-if="cat"
         class="max-w-3xl mx-auto bg-white shadow-md rounded-2xl p-8 border border-gray-100"
       >
         <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">
@@ -178,33 +150,83 @@
       </div>
     </section>
   </div>
+
   <ContactUs />
 </template>
 
 <script setup>
-import Navbar from "@/components/Navbar.vue";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
 import ContactUs from "@/components/ContactUs.vue";
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
 
-const cat = ref({
-  name: "Milo",
-  age: "7 Bulan",
-  breed: "Persian Breeds",
-  location: "Bandung",
-  description:
-    "Milo adalah kucing jantan berusia 7 bulan yang aktif dan sangat ramah. Dia telah diperiksa dokter hewan dan cocok untuk keluarga dengan anak-anak.",
-  imageUrl: "https://i.imgur.com/Gj3Hj0c.jpg",
-});
+const cats = [
+  {
+    id: 1,
+    name: "Milo",
+    age: "7 Bulan",
+    breed: "Persian Breeds",
+    location: "Bandung",
+    description:
+      "Milo adalah kucing jantan berusia 7 bulan yang aktif dan sangat ramah. Dia cocok untuk keluarga dengan anak-anak.",
+    imageUrl: "https://i.imgur.com/Gj3Hj0c.jpg",
+  },
+  {
+    id: 2,
+    name: "Luna",
+    age: "1 Tahun",
+    breed: "British Shorthair",
+    location: "Jakarta",
+    description:
+      "Luna memiliki bulu abu-abu halus dan mata bulat besar. Dia tenang, manja, dan suka tidur di pangkuan.",
+    imageUrl: "https://i.imgur.com/s7ZzvED.jpg",
+  },
+  {
+    id: 3,
+    name: "Oreo",
+    age: "5 Bulan",
+    breed: "Domestic Short Hair",
+    location: "Surabaya",
+    description:
+      "Oreo adalah kucing lucu penuh energi yang suka bermain bola dan mengejar mainan.",
+    imageUrl: "https://i.imgur.com/jf2rFj3.jpg",
+  },
+  {
+    id: 4,
+    name: "Simba",
+    age: "2 Tahun",
+    breed: "Maine Coon",
+    location: "Yogyakarta",
+    description:
+      "Simba punya tubuh besar tapi berhati lembut. Cocok untuk rumah dengan ruang luas.",
+    imageUrl: "https://i.imgur.com/szU2Q7I.jpg",
+  },
+  {
+    id: 5,
+    name: "Nala",
+    age: "9 Bulan",
+    breed: "Siamese",
+    location: "Denpasar",
+    description:
+      "Nala sangat komunikatif dan suka bermanja. Sudah divaksin lengkap dan steril.",
+    imageUrl: "https://i.imgur.com/6rRZQlx.jpg",
+  },
+];
 
+const cat = ref(null);
 const form = ref({
   name: "",
   email: "",
   phone: "",
   address: "",
   agreed: false,
+});
+
+onMounted(() => {
+  const id = parseInt(route.params.id);
+  cat.value = cats.find((c) => c.id === id) || null;
 });
 
 const goToTerms = () => router.push("/terms");

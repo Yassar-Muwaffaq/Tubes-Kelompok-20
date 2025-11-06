@@ -2,7 +2,7 @@
   <!-- HERO SECTION -->
   <section class="about-hero">
     <div class="hero-text">
-      <h1>About <span>Adopt Center</span></h1>
+      <h1 class >About <span>Adopt Center</span></h1>
       <p>We’re a community of animal lovers dedicated to helping stray cats find safe and loving homes.</p>
       <button class="btn">Join Our Mission</button>
     </div>

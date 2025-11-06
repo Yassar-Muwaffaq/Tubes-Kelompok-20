@@ -18,7 +18,7 @@ const router = createRouter({
       component: DashboardView
     },
     {
-      path: '/adopt-now',
+      path: '/adopt-now/:id',
       name: 'adopt-now',
       component: AdoptNowView
     },
@@ -36,6 +36,16 @@ const router = createRouter({
       path:'/profile',
       name:'profile',
       component: () => import('@/views/ProfileView.vue'),
+    },
+    {
+      path:'/news',
+      name:'news',
+      component: () => import('@/views/NewsView.vue'),
+    },
+    {
+      path:'/report-rescue',
+      name:'report-rescue',
+      component: () => import('@/views/ReportRescueView.vue'),
     },
     // Kamu bisa menambahkan halaman lain di sini nanti, contoh:
     // {
