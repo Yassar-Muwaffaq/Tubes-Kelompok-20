@@ -47,6 +47,21 @@ const router = createRouter({
       name:'report-rescue',
       component: () => import('@/views/ReportRescueView.vue'),
     },
+    {
+      path:'/login',
+      name:'login',
+      component: () => import('@/components/Login.vue'),
+    },
+    {
+      path:'/sign-up',
+      name:'sign-up',
+      component: () => import('@/components/SignUp.vue'),
+    },
+    {
+      path:'/donate',
+      name:'donate',
+      component: () => import('@/views/DonateView.vue'),
+    },
     // Kamu bisa menambahkan halaman lain di sini nanti, contoh:
     // {
     //   path: '/about',

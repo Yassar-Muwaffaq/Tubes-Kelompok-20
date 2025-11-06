@@ -1,6 +1,6 @@
 <template>
   <!-- BAGIAN 6 CONTACT US -->
-  <section class="contact-section">
+ <section class="contact-section">
     <h2>Contact Us</h2>
     <p>
       For more information about our adoption program, donations, or collaborations, 
@@ -9,27 +9,33 @@
 
     <div class="contact-container">
       <div class="contact-card">
+        <img src="/images/contactus/rumah.png" alt="rumah" class="contact-img" />
         <i class="fa-solid fa-house"></i>
         <h3>Location</h3>
         <p>Street Bandung</p>
       </div>
 
       <div class="contact-card">
+      <img src="/images/contactus/ig.png" alt="ig" class="contact-img" />
         <i class="fa-brands fa-instagram"></i>
         <h3>Instagram</h3>
-        <p>@adopeCenter.co</p>
+        <p>@adoptCenter.co</p>
       </div>
 
       <div class="contact-card">
+        <img src="/images/contactus/wa.png" alt="wa" class="contact-img mt-5" />
         <i class="fa-brands fa-whatsapp"></i>
-        <h3>What’s App</h3>
-        <p>+628099999999</p>
+        <div class="mt-7">
+          <h3>What’s App</h3>
+          <p>+628099999999</p>
+        </div>
       </div>
 
       <div class="contact-card">
+        <img src="/images/contactus/gmail.png" alt="gmail" class="contact-img" />
         <i class="fa-solid fa-envelope"></i>
         <h3>Email</h3>
-        <p>@adope.center.co</p>
+        <p>@Adopt.center.co</p>
       </div>
     </div>
   </section>
@@ -62,6 +68,7 @@ export default {
   margin: 0 auto 40px auto;
   line-height: 1.6;
   font-size: 16px;
+  color: #000;
 }
 
 .contact-container {

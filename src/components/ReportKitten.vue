@@ -45,7 +45,7 @@
           text-black font-semibold
           rounded-xl!
           max-sm:px-6 max-sm:py-2! max-sm:text-base!
-          px-10 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl flex items-center gap-2 transition-transform hover:-translate-x-0.5"
+          px-10 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl flex items-center gap-2 "
         >
           REPORT
         </button>

@@ -18,7 +18,9 @@
       </div>
 
       <!-- Scroll Horizontal -->
-      <div class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 hide-scrollbar">
+      <div
+        class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 hide-scrollbar"
+      >
         <!-- Kartu berita -->
         <div
           v-for="(news, index) in newsList"
@@ -26,7 +28,7 @@
           class="flex-none bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.03]
                  transition-all snap-start overflow-hidden border border-gray-100 cursor-pointer
                  w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%] xl:w-[25%]"
-          @click="openModal(news)"
+          @click="openModal(index)"
         >
           <!-- Gambar -->
           <div class="relative">
@@ -58,24 +60,25 @@
           <!-- Bar aksi -->
           <div
             class="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50"
+            @click.stop
           >
             <div class="flex items-center gap-3">
               <button
-                @click.stop="toggleLike(news)"
+                @click.stop="toggleLike(index)"
                 class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-200 text-[12px] font-medium transition"
               >
                 ❤️ <span>{{ news.likes }}</span>
               </button>
 
               <button
-                @click.stop
+                @click.stop="openModal(index)"
                 class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-200 text-[12px] font-medium transition"
               >
-                💬 <span>{{ news.comments }}</span>
+                💬 <span>{{ news.comments.length }}</span>
               </button>
 
               <button
-                @click.stop
+                @click.stop="share(index)"
                 class="px-2 py-1 rounded-md hover:bg-gray-200 text-[12px] font-medium transition"
                 aria-label="share"
               >
@@ -84,56 +87,30 @@
             </div>
 
             <div class="flex gap-2 text-[16px]">
-              <span @click.stop class="hover:scale-110 transition-transform cursor-pointer">😺</span>
-              <span @click.stop class="hover:scale-110 transition-transform cursor-pointer">😻</span>
-              <span @click.stop class="hover:scale-110 transition-transform cursor-pointer">😹</span>
+              <button @click.stop="addReaction(index, '😺')" class="hover:scale-110 transition-transform cursor-pointer">😺</button>
+              <button @click.stop="addReaction(index, '😻')" class="hover:scale-110 transition-transform cursor-pointer">😻</button>
+              <button @click.stop="addReaction(index, '😹')" class="hover:scale-110 transition-transform cursor-pointer">😹</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- POPUP MODAL -->
-    <transition name="fade">
-      <div
-        v-if="selectedNews"
-        class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4"
-        @click.self="closeModal"
-      >
-        <div
-          class="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative"
-        >
-          <button
-            class="absolute top-3 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-            @click="closeModal"
-          >
-            ✕
-          </button>
-
-          <img :src="selectedNews.image" class="w-full h-[300px] sm:h-[400px] object-cover" />
-
-          <div class="p-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ selectedNews.title }}</h2>
-            <p class="text-gray-600 leading-relaxed text-sm sm:text-base">
-              {{ selectedNews.desc }}
-            </p>
-
-            <div class="flex items-center gap-4 mt-4 border-t pt-3 text-gray-700 text-sm">
-              <button @click="toggleLike(selectedNews)" class="flex items-center gap-2 hover:text-red-500">
-                ❤️ {{ selectedNews.likes }}
-              </button>
-              <span>💬 {{ selectedNews.comments }}</span>
-              <span>🔗 Share</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
+    <!-- POPUP (dari file terpisah) -->
+    <NewsModal
+      :visible="modalVisible"
+      :news="newsList[selectedIndex]"
+      :index="selectedIndex"
+      v-if="modalVisible && selectedIndex !== null"
+      @close="onModalClose"
+      @update-news="onModalUpdate"
+    />
   </section>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import NewsModal from './NewsPopUp.vue'
 
 const newsList = ref([
   {
@@ -141,45 +118,65 @@ const newsList = ref([
     desc: 'Kucing ini baru saja memenangkan lomba kecantikan hewan tingkat nasional. Ia dikenal karena bulunya yang lembut dan tingkahnya yang menggemaskan.',
     image: '/images/header/Cat 9.jpg',
     likes: 20,
-    comments: 1000,
+    comments: [{ user: 'Mia', text: 'Lucunyaaa 😻', likes: 2 }],
+    reactions: {},
   },
   {
     title: 'Kucing Diselamatkan dari Pohon',
     desc: 'Seekor kucing berhasil diselamatkan oleh tim damkar setelah terjebak di atas pohon selama dua hari.',
     image: '/images/header/Cat 9.jpg',
     likes: 54,
-    comments: 421,
+    comments: [{ user: 'Luna', text: 'Terima kasih pahlawan damkar!', likes: 3 }],
+    reactions: {},
   },
   {
     title: 'Kucing Baru di Shelter',
     desc: 'Shelter kami baru kedatangan kucing kecil lucu berumur 2 bulan yang sedang mencari rumah baru.',
     image: '/images/header/Cat 9.jpg',
     likes: 13,
-    comments: 89,
+    comments: [],
+    reactions: {},
   },
   {
     title: 'Festival Kucing Tahunan',
     desc: 'Event besar untuk para pecinta kucing digelar minggu ini, menghadirkan puluhan ras dan atraksi unik.',
     image: '/images/header/Cat 9.jpg',
     likes: 89,
-    comments: 230,
+    comments: [{ user: 'Dina', text: 'Seru banget tahun lalu!', likes: 1 }],
+    reactions: {},
   },
 ])
 
-const selectedNews = ref(null)
+const selectedIndex = ref(null)
+const modalVisible = ref(false)
 
-function openModal(news) {
-  selectedNews.value = news
+function openModal(index) {
+  selectedIndex.value = index
+  modalVisible.value = true
   document.body.style.overflow = 'hidden'
 }
 
-function closeModal() {
-  selectedNews.value = null
+function onModalClose() {
+  modalVisible.value = false
+  selectedIndex.value = null
   document.body.style.overflow = ''
 }
 
-function toggleLike(news) {
-  news.likes += 1
+function toggleLike(index) {
+  newsList.value[index].likes++
+}
+
+function share(index) {
+  navigator.clipboard.writeText(window.location.origin + '/news/' + encodeURIComponent(newsList.value[index].title))
+}
+
+function addReaction(index, emoji) {
+  const n = newsList.value[index]
+  n.reactions[emoji] = (n.reactions[emoji] || 0) + 1
+}
+
+function onModalUpdate({ index, updatedNews }) {
+  newsList.value[index] = { ...updatedNews }
 }
 </script>
 
@@ -190,14 +187,6 @@ function toggleLike(news) {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.25s;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 .line-clamp-2 {
   display: -webkit-box;
