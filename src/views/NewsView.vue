@@ -87,7 +87,7 @@ const newsList = ref([
   {
     title: "Ada Kucing Kece",
     desc: "Kucing ini baru saja memenangkan lomba kecantikan hewan tingkat nasional.",
-    image: "/images/header/Cat 9.jpg",
+    image: "/images/home/Cat 9.jpg",
     likes: 20,
     isLiked: false,
     comments: [
@@ -100,7 +100,7 @@ const newsList = ref([
   {
     title: "Kucing Diselamatkan dari Pohon",
     desc: "Seekor kucing berhasil diselamatkan oleh tim damkar setelah terjebak dua hari.",
-    image: "/images/header/Cat 9.jpg",
+    image: "/images/home/Cat 9.jpg",
     likes: 54,
     isLiked: false,
     comments: [{ user: "Luna", text: "Terima kasih pahlawan damkar!", likes: 3 }],
