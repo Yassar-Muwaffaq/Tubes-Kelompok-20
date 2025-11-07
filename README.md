@@ -56,6 +56,7 @@ Koneksi ke **Database** dan integrasi **Backend** belum diatur dalam tahap ini d
 ## 📂 Struktur Project
 
 src/ ├── assets/ # File statis (CSS utama, gambar jika ada) │ └── main.css ├── components/ # Komponen Vue yang dapat digunakan kembali │ ├── AboutUs.vue │ ├── AdoptSlider.vue │ ├── ContactUs.vue │ ├── Dashboard.vue │ ├── FAQ.vue │ ├── Login.vue │ ├── Navbar.vue │ ├── NewsPopUp.vue │ ├── NewsSection.vue │ ├── ReportKitten.vue │ └── TermAndCondition.vue ├── router/ # Konfigurasi Vue Router │ └── index.js ├── views/ # Halaman utama aplikasi │ ├── AdoptNowView.vue │ ├── AdoptionView.vue │ ├── DashboardView.vue │ ├── DonateView.vue │ ├── HomeView.vue │ ├── NewsView.vue │ ├── ProfileView.vue │ └── ReportRescueView.vue ├── App.vue # Komponen root utama └── main.js # Entry point aplikasi
+
 ## 🚀 Cara Menjalankan Project
 
 Ikuti langkah-langkah berikut untuk menjalankan project ini di komputer lokal Anda.
