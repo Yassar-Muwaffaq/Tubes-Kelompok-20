@@ -3,7 +3,7 @@
     <!-- <Navbar /> -->
 
     <!-- Hero Section -->
-    <section class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-6 mt-10">
+    <section class="min-h-screen bg-[#f7f1e8] py-16 px-6 mt-10">
       <div class="max-w-5xl mx-auto text-center">
         <h1 class="text-5xl font-extrabold text-gray-900 mb-6">
           Adopt Your New Furry Friend 🐾

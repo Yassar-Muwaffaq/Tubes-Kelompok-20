@@ -151,11 +151,11 @@
 
     <!-- Kucing dekorasi -->
     <div class="fixed bottom-0 right-0 z-50">
-      <img
+      <!-- <img
         src="/images/report-rescue/sherlock-cat.png"
         alt="Kucing Sherlock"
         class="w-56 h-auto object-cover"
-      />
+      /> -->
     </div>
   </main>
 </template>

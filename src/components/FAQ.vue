@@ -46,7 +46,7 @@
 
 /* Tambahkan kotak latar biru di dalam section */
 .faq-container {
-  background-color: #6CD4FF;
+  background-color: white;
   padding: 40px 20px;
   border-radius: 20px;
   max-width: 2000px; /* biar gak terlalu lebar */

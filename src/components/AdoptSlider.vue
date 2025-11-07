@@ -8,10 +8,11 @@
       navigation
       pagination
       class="mySwiper"
+      @realIndexChange="onRealIndexChange"
     >
       <SwiperSlide
         v-for="(kitten, index) in kittens"
-        :key="index"
+        :key="kitten.id" 
         class="kitten-slide"
       >
         <div class="kitten-card">
@@ -26,37 +27,57 @@
 
     <h2 class="title">ADOPT UR KITTEN HERE</h2>
     
-    <button class="cat-button" @click="goToReport">
-      <img src="/images/header/cat-button.png" alt="Report Kitten" />
+    <button class="cat-button" @click="goToAdoptDetail">
+      <img src="/images/header/cat-button.png" alt="adopt-now" />
     </button>
+
+    <div class="more-button-container">
+      <RouterLink to="/adoption" class="see-more-btn">
+        Lihat Lainnya
+      </RouterLink>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
+
+// Import style Swiper
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// 2. DITAMBAHKAN: Import router dan inisialisasi
-import { useRouter } from 'vue-router';
 const router = useRouter();
+const currentRealIndex = ref(0); // State untuk menyimpan index slide aktif
 
+// Data Kittens dengan ID unik
 const kittens = [
-  { name: 'Miawi', age: '2 Tahun', image: '/images/miawi.jpg' },
-  { name: 'Puff', age: '1 Tahun', image: '/images/puff.jpg' },
-  { name: 'Coco', age: '3 Bulan', image: '/images/coco.jpg' },
-  { name: 'Lulu', age: '8 Bulan', image: '/images/lulu.jpg' },
-  { name: 'Neko', age: '6 Bulan', image: '/images/neko.jpg' },
+  { id: 101, name: 'Miawi', age: '2 Tahun', image: '/images/miawi.jpg' },
+  { id: 102, name: 'Puff', age: '1 Tahun', image: '/images/puff.jpg' },
+  { id: 103, name: 'Coco', age: '3 Bulan', image: '/images/coco.jpg' },
+  { id: 104, name: 'Lulu', age: '8 Bulan', image: '/images/lulu.jpg' },
+  { id: 105, name: 'Neko', age: '6 Bulan', image: '/images/neko.jpg' },
 ];
 
-// 2. DITAMBAHKAN: Fungsi untuk navigasi
-function goToReport() {
-  router.push('/report-rescue');
-}
-</script>
+// Event handler saat slide berubah (loop-compatible)
+const onRealIndexChange = (swiper) => {
+  currentRealIndex.value = swiper.realIndex;
+};
 
+// Fungsi navigasi dinamis ke halaman detail
+const goToAdoptDetail = () => {
+  const activeKitten = kittens[currentRealIndex.value];
+  if (activeKitten && activeKitten.id) {
+    // Contoh hasil: /adopt-now/102
+    router.push(`/adopt-now/${activeKitten.id}`);
+  } else {
+    console.error("Data kitten tidak ditemukan untuk index ini.");
+  }
+};
+</script>
 <style scoped>
 .adopt-slider {
   text-align: center;
@@ -155,4 +176,32 @@ function goToReport() {
   transform: scale(1.1); /* Efek hover membesar */
   opacity: 0.9;
 }
+
+.more-button-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.see-more-btn {
+  display: inline-block;
+  background-color: #ED8B3C;
+  color: white;
+  padding: 12px 40px;
+  border-radius: 9999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.see-more-btn:hover {
+  background-color: #d97a2b; /* Warna sedikit lebih gelap saat di-hover */
+  transform: translateY(-3px); /* Tombol naik sedikit saat di-hover */
+  box-shadow: 0 6px 12px rgba(237, 139, 60, 0.4); /* Bayangan lebih tegas saat hover */
+}
+
+.see-more-btn:active {
+  transform: translateY(-1px); /* Efek tekan saat diklik */
+  box-shadow: 0 2px 4px rgba(237, 139, 60, 0.3);
+}
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="pt-24 pb-16 bg-gray-50 min-h-screen">
+  <section class="pt-24 pb-16 bg-[#f7f1e8] min-h-screen ">
     <!-- Hero -->
     <div class="max-w-6xl mx-auto px-6 text-center">
       <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Support Our Cats ❤️</h1>
