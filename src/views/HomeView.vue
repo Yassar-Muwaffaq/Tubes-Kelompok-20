@@ -25,7 +25,7 @@
   <!-- Gambar kanan -->
   <div class="w-full lg:w-1/2 flex justify-center lg:justify-end m-0 p-0">
     <img
-      src="/images/home/Vector.png"
+      src="/images/home/vector.png"
       alt="Cat"
       class="hero-cat-image w-full lg:w-auto lg:h-screen object-contain lg:object-cover m-0 p-0"
     />
