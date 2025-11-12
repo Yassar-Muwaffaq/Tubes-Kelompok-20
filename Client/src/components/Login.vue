@@ -6,7 +6,11 @@
     >
       <!-- Cat Image -->
       <img
+<<<<<<< HEAD
         src="/images/header/kucing-oren.png"
+=======
+        src="/images/Asset Login/kucing-oren.png"
+>>>>>>> fc6a9fe (Hapus tabel contoh)
         alt="Cat"
         class="absolute right-[45%] -top-30  h-50 object-contain"
       />

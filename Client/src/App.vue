@@ -10,7 +10,6 @@ const cats = ref([])
 onMounted(async () => {
   try {
     const res = await CatApi.getAll()
-    console.log(res.data)
     cats.value = res.data
   } catch (err) {
     console.error('❌ Gagal ambil data kucing:', err)
@@ -20,7 +19,7 @@ onMounted(async () => {
 
 <template>
   <Navbar />
-  <RouterView />
+
 </template>
 
 <style scoped>
