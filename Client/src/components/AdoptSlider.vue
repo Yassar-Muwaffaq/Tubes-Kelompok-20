@@ -1,6 +1,14 @@
 <template>
   <div class="adopt-slider">
+    <div v-if="loading" class="loading-message">
+      Memuat daftar hewan peliharaan...
+    </div>
+    <div v-else-if="kittens.length === 0" class="no-data-message">
+      Tidak ada data hewan peliharaan yang ditemukan. Pastikan API Server (port 5000) berjalan dan database terisi.
+    </div>
+
     <Swiper
+      v-else
       :modules="[Navigation, Pagination]"
       :slides-per-view="3"
       :centered-slides="true"
@@ -11,14 +19,14 @@
       @realIndexChange="onRealIndexChange"
     >
       <SwiperSlide
-        v-for="(kitten, index) in kittens"
+        v-for="kitten in kittens"
         :key="kitten.id" 
         class="kitten-slide"
       >
         <div class="kitten-card">
-          <img :src="kitten.image" :alt="kitten.name" />
+          <img :src="kitten.image || '/images/default.jpg'" :alt="kitten.name" />
           <div class="kitten-info">
-            <p class="age">{{ kitten.age }}</p>
+            <p class="age">{{ kitten.age || 'Usia tidak diketahui' }}</p>
             <h3 class="name">{{ kitten.name }}</h3>
           </div>
         </div>
@@ -40,7 +48,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import axios from 'axios'; // 👈 Tambahkan
+import { ref, onMounted } from 'vue'; // 👈 Tambahkan onMounted
 import { useRouter } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -51,16 +60,31 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const router = useRouter();
-const currentRealIndex = ref(0); // State untuk menyimpan index slide aktif
+const currentRealIndex = ref(0); 
 
-// Data Kittens dengan ID unik
-const kittens = [
-  { id: 101, name: 'Miawi', age: '2 Tahun', image: '/images/miawi.jpg' },
-  { id: 102, name: 'Puff', age: '1 Tahun', image: '/images/puff.jpg' },
-  { id: 103, name: 'Coco', age: '3 Bulan', image: '/images/coco.jpg' },
-  { id: 104, name: 'Lulu', age: '8 Bulan', image: '/images/lulu.jpg' },
-  { id: 105, name: 'Neko', age: '6 Bulan', image: '/images/neko.jpg' },
-];
+// Data yang akan diisi dari API
+const kittens = ref([]); // 👈 Ubah menjadi ref dan kosong
+const loading = ref(true); // 👈 Tambahkan state loading
+const API_URL = 'http://localhost:5000/api/cats'; // 👈 Endpoint API Anda
+
+// Fungsi untuk mengambil data dari Backend
+const fetchKittens = async () => {
+    try {
+        const response = await axios.get(API_URL); 
+        // Asumsi data yang dikembalikan berupa array
+        kittens.value = response.data; 
+    } catch (error) {
+        console.error("Gagal mengambil data dari server:", error);
+        // Bisa tambahkan logika untuk menampilkan pesan error di UI
+    } finally {
+        loading.value = false;
+    }
+};
+
+// Panggil fungsi saat komponen selesai di-mount
+onMounted(() => {
+    fetchKittens();
+});
 
 // Event handler saat slide berubah (loop-compatible)
 const onRealIndexChange = (swiper) => {
@@ -69,16 +93,20 @@ const onRealIndexChange = (swiper) => {
 
 // Fungsi navigasi dinamis ke halaman detail
 const goToAdoptDetail = () => {
-  const activeKitten = kittens[currentRealIndex.value];
+  // Ambil ID dari data aktif yang sudah diambil dari API
+  const activeKitten = kittens.value[currentRealIndex.value]; 
+  
   if (activeKitten && activeKitten.id) {
-    // Contoh hasil: /adopt-now/102
+    // Navigasi ke route detail dengan ID yang valid
     router.push(`/adopt-now/${activeKitten.id}`);
   } else {
-    console.error("Data kitten tidak ditemukan untuk index ini.");
+    console.error("Data kitten tidak ditemukan atau ID tidak valid.");
   }
 };
 </script>
+
 <style scoped>
+/* Semua styling CSS Anda tetap sama */
 .adopt-slider {
   text-align: center;
   background: #f7f1e8;
