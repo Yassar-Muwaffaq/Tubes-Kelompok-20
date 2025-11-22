@@ -168,12 +168,39 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import axios from "axios";
 
-const catData = ref([
-  { id: "#001", img: "https://i.imgur.com/Gj3Hj0c.jpg", name: "Milo", breed: "Persian Breeds", age: "7 Month", location: "Bandung" },
-  { id: "#002", img: "https://i.imgur.com/Gj3Hj0c.jpg", name: "Bimo", breed: "Maine Coon", age: "12 Month", location: "Jakarta" },
-]);
+const catData = ref([]);
+
+onMounted(async () => {
+  try {
+    const res = await axios.get("http://localhost:5000/api/reports");
+
+    catData.value = res.data.map(r => {
+      let photo = null;
+
+      try {
+        const arr = JSON.parse(r.photos);
+        photo = arr.length > 0 ? `http://localhost:5000/uploads/${arr[0]}` : null;
+      } catch (e) {
+        photo = null;
+      }
+
+      return {
+        id: r.id,
+        img: photo,
+        name: r.name,
+        breed: r.breeds,
+        age: r.age,
+        location: r.lastLocation
+      };
+    });
+  } catch (err) {
+    console.error("Gagal mengambil data reports:", err);
+  }
+});
+
 
 const userData = ref([
   { id: "#001", img: "https://i.imgur.com/3YfB0yv.jpg", name: "Ujang", role: "Adapter", contact: "089158139581", location: "Bandung" },
@@ -215,3 +242,4 @@ const handleDonate = () => {
   console.log("Donasi diterima oleh admin 💚");
 };
 </script>
+
