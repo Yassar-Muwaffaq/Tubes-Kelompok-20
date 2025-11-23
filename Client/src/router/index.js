@@ -19,7 +19,7 @@ const router = createRouter({
     },
     {
       path: '/adopt-now/:id',
-      name: 'adopt-now',
+      name: 'adopt-now',  
       component: AdoptNowView
     },
     {
