@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// 1. Import halaman HomeView yang baru kamu buat
 import HomeView from '../views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import AdoptNowView from '@/views/AdoptNowView.vue'
@@ -8,19 +7,21 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/', // Ini adalah URL root (halaman utama)
+      path: '/',
       name: 'home',
-      component: HomeView // 2. Tampilkan komponen HomeView saat URL '/' dibuka
+      component: HomeView
     },
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: DashboardView
+      component: DashboardView,
+      meta: { requiresAuth: true } // contoh butuh login
     },
     {
       path: '/adopt-now/:id',
       name: 'adopt-now',
-      component: AdoptNowView
+      component: AdoptNowView,
+      meta: { requiresAuth: true }
     },
     {
       path:'/terms',
@@ -36,6 +37,7 @@ const router = createRouter({
       path:'/profile',
       name:'profile',
       component: () => import('@/views/ProfileView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path:'/news',
@@ -46,6 +48,7 @@ const router = createRouter({
       path:'/report-rescue',
       name:'report-rescue',
       component: () => import('@/views/ReportRescueView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path:'/login',
@@ -66,14 +69,20 @@ const router = createRouter({
       path:'/all-pages',
       name:'all-pages',
       component: () => import('@/views/AllPagesView.vue'),
-    },
-    // Kamu bisa menambahkan halaman lain di sini nanti, contoh:
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    }
   ]
+})
+
+
+// ✅ Middleware setelah router dibuat
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token")
+
+  if (to.meta.requiresAuth && !token) {
+    return next("/login")
+  }
+
+  next()
 })
 
 export default router
