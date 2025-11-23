@@ -147,6 +147,7 @@
           Make a report
         </button>
       </form>
+
     </div>
 
     <!-- Kucing dekorasi -->
@@ -179,8 +180,35 @@ const handleFileUpload = (event) => {
   console.log('Files uploaded:', form.value.photos.map((f) => f.name));
 };
 
-const submitReport = () => {
-  console.log('Report Submitted:', form.value);
-  alert(`Laporan tentang ${form.value.name || 'kucing tak bernama'} telah dibuat!`);
+import axios from "axios";
+
+const submitReport = async () => {
+  try {
+    const formData = new FormData();
+
+    // add files
+    form.value.photos.forEach(file => {
+      formData.append("photos", file);
+    });
+
+    // add other fields
+    formData.append("name", form.value.name);
+    formData.append("age", form.value.age);
+    formData.append("gender", form.value.gender);
+    formData.append("breeds", form.value.breeds);
+    formData.append("reporterContact", form.value.reporterContact);
+    formData.append("lastLocation", form.value.lastLocation);
+    formData.append("description", form.value.description);
+
+    await axios.post("http://localhost:5000/api/reports", formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+
+    alert("Laporan berhasil dikirim!");
+  } catch (error) {
+    console.error("DETAIL ERROR:", error.response?.data || error.message);
+    alert("Gagal mengirim laporan!");
+  }
 };
+
 </script>

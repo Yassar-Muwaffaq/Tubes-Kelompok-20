@@ -7,7 +7,11 @@ export const db = await mysql.createConnection({
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "cat_adoption_system",
+  port: 3306   
 });
+
 
 console.log("✅ Database connected!");
 export default db;
+                  
+                      
