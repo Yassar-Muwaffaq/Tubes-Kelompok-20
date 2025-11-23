@@ -78,40 +78,56 @@
     />
   </section>
 </template>
-
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import NewsModal from "../components/NewsPopUp.vue"
+import { NewsApi } from "../api/newsApi.js"
 
-const newsList = ref([
-  {
-    title: "Ada Kucing Kece",
-    desc: "Kucing ini baru saja memenangkan lomba kecantikan hewan tingkat nasional.",
-    image: "/images/home/Cat 9.jpg",
-    likes: 20,
-    isLiked: false,
-    comments: [
-      { user: "Mia", text: "Lucunyaaa 😻", likes: 2 },
-      { user: "Rafi", text: "Kucingnya mirip punyaku!", likes: 1 },
-    ],
-    newComment: "",
-    reactions: {},
-  },
-  {
-    title: "Kucing Diselamatkan dari Pohon",
-    desc: "Seekor kucing berhasil diselamatkan oleh tim damkar setelah terjebak dua hari.",
-    image: "/images/home/Cat 9.jpg",
-    likes: 54,
-    isLiked: false,
-    comments: [{ user: "Luna", text: "Terima kasih pahlawan damkar!", likes: 3 }],
-    newComment: "",
-    reactions: {},
-  },
-])
+const newsList = ref([])
 
 const emojis = [{ char: "😺" }, { char: "😻" }, { char: "😹" }]
-
 const selectedNews = ref(null)
+
+const fetchNews = async () => {
+  try {
+    // 1. Ambil semua berita
+    const res = await NewsApi.getNews()
+    const allNews = res.data    // pakai ini terus
+
+    console.log("Berita diterima:", allNews)
+
+    // 2. Ambil semua komentar setiap berita
+    const commentPromises = allNews.map(n =>
+      NewsApi.getComments(n.id).catch(() => ({ data: [] }))
+    )
+
+    const commentsResults = await Promise.all(commentPromises)
+
+    // 3. Format berita agar cocok dengan template
+    const BASE = import.meta.env.VITE_STATIC_BASE_URL.replace(/\/$/, "")
+
+    newsList.value = allNews.map((n, idx) => ({
+      ...n,
+      desc: n.desc || n.content || "",
+      image: BASE + (n.image || "/images/placeholder.jpg"),
+      likes: n.likes ?? 0,
+      isLiked: false,
+      comments: Array.isArray(commentsResults[idx]?.data)
+        ? commentsResults[idx].data
+        : [],
+      reactions: n.reactions || {},
+      newComment: ""
+    }))
+
+  } catch (err) {
+    console.error("Gagal fetch news:", err)
+  }
+}
+
+onMounted(fetchNews)
+
+
+// --- fitur UI sama seperti NewsView lama ---
 
 const toggleLike = (index) => {
   const news = newsList.value[index]
@@ -134,7 +150,6 @@ const openPopup = (news) => {
 }
 
 const handleUpdateNews = (updated) => {
-  // bisa di-sync ke backend di sini nanti
   console.log("Updated news:", updated)
 }
 </script>

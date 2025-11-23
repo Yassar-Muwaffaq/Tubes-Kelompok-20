@@ -6,4 +6,3 @@ export const CatApi = {
   add: (data) => axios.post('/add-cat', data),
 }
 
-
