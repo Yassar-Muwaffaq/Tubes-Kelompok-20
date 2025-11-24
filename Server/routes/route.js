@@ -39,7 +39,8 @@ router.post("/add-cat", async (req, res) => {
 });
 
 
-/* ------------------ CREATE REPORT + UPLOAD FOTO ------------------ */
+
+/* ------------------ GET ALL REPORTS ------------------ */
 router.get("/reports", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM reports ORDER BY created_at DESC");
@@ -49,29 +50,41 @@ router.get("/reports", async (req, res) => {
   }
 });
 
+/* ------------------ CREATE REPORT + UPLOAD FOTO ------------------ */
 router.post("/reports", upload.array("photos", 10), async (req, res) => {
   try {
-    const { name, age, gender, breeds, reporterContact, lastLocation, description } = req.body;
+    const {
+      cat_name,
+      age,
+      gender,
+      breeds,
+      reporterContact,
+      location,
+      description,
+      user_id
+    } = req.body;
 
     const photoPaths = req.files ? req.files.map(f => f.filename) : [];
 
     await db.query(
       `INSERT INTO reports 
-      (name, age, gender, breeds, reporterContact, lastLocation, description, photos)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      (user_id, cat_name, age, gender, breeds, reporterContact, location, description, status, image) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        name,
+        user_id || null,
+        cat_name,
         age,
         gender,
         breeds,
         reporterContact,
-        lastLocation,
+        location,
         description,
+        "Diterima",
         JSON.stringify(photoPaths)
       ]
     );
 
-    res.json({ message: "Laporan berhasil dikirim" });
+    res.json({ message: "Laporan berhasil dikirim!" });
 
   } catch (err) {
     res.status(500).json({ error: "Gagal mengirim laporan", detail: err });

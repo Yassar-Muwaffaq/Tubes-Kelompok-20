@@ -13,10 +13,12 @@
         class="bg-[#2a2a2a] p-6 sm:p-10 rounded-3xl shadow-2xl space-y-6 border border-[#3d3d3d]"
       >
         <!-- Upload Foto -->
-        <div
+      <!-- Perbaruan di bagian agar foto tertampil di form saat user add laporam -->
+       <div
           class="bg-[#3b3b3b] p-6 rounded-xl text-center shadow-inner border border-[#4a4a4a]"
         >
-          <label for="photos" class="cursor-pointer">
+          <!-- Jika belum upload foto -->
+          <label v-if="previewImages.length === 0" for="photos" class="cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-10 w-10 mx-auto text-[#d4b97d]"
@@ -38,6 +40,14 @@
             </svg>
             <p class="text-[#e6dccb] font-semibold mt-2">Upload Photos</p>
           </label>
+
+          <!-- Jika foto sudah diupload, tampilkan preview -->
+          <div v-else class="grid grid-cols-2 gap-3 mt-3">
+            <div v-for="(src, i) in previewImages" :key="i">
+              <img :src="src" class="w-full h-40 object-cover rounded-lg border border-[#666]" />
+            </div>
+          </div>
+
           <input
             type="file"
             id="photos"
@@ -47,6 +57,7 @@
             accept="image/*"
           />
         </div>
+
 
         <!-- Input fields -->
         <label class="block">
@@ -161,8 +172,13 @@
   </main>
 </template>
 
+
 <script setup>
 import { ref } from 'vue';
+import axios from "axios";
+
+//untuk preview gambar saat user add laporan
+const previewImages = ref([]);
 
 const form = ref({
   photos: [],
@@ -170,41 +186,54 @@ const form = ref({
   age: '',
   gender: '',
   breeds: '',
-  reporterContact: '',
+  reporterContact:'',
   lastLocation: '',
   description: '',
 });
 
+//upload dan preview photo
 const handleFileUpload = (event) => {
-  form.value.photos = Array.from(event.target.files);
-  console.log('Files uploaded:', form.value.photos.map((f) => f.name));
+  const files = Array.from(event.target.files);
+  form.value.photos = files;
+  previewImages.value = files.map(file => URL.createObjectURL(file));
 };
-
-import axios from "axios";
 
 const submitReport = async () => {
   try {
     const formData = new FormData();
 
-    // add files
+    // Upload file
     form.value.photos.forEach(file => {
       formData.append("photos", file);
     });
 
-    // add other fields
-    formData.append("name", form.value.name);
+    formData.append("cat_name", form.value.name);
     formData.append("age", form.value.age);
     formData.append("gender", form.value.gender);
     formData.append("breeds", form.value.breeds);
     formData.append("reporterContact", form.value.reporterContact);
-    formData.append("lastLocation", form.value.lastLocation);
+    formData.append("location", form.value.lastLocation);
     formData.append("description", form.value.description);
+    formData.append("user_id", 1);
 
     await axios.post("http://localhost:5000/api/reports", formData, {
-      headers: { "Content-Type": "multipart/form-data" }
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
     alert("Laporan berhasil dikirim!");
+
+    //RESET FORM DI SINI, saat 
+    form.value = {
+      photos: [],
+      name: '',
+      age: '',
+      gender: '',
+      breeds: '',
+      reporterContact: '',
+      lastLocation: '',
+      description: '',
+    };
+
   } catch (error) {
     console.error("DETAIL ERROR:", error.response?.data || error.message);
     alert("Gagal mengirim laporan!");

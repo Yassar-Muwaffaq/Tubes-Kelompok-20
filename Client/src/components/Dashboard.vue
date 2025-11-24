@@ -181,7 +181,7 @@ onMounted(async () => {
       let photo = null;
 
       try {
-        const arr = JSON.parse(r.photos);
+        const arr = JSON.parse(r.image);
         photo = arr.length > 0 ? `http://localhost:5000/uploads/${arr[0]}` : null;
       } catch (e) {
         photo = null;

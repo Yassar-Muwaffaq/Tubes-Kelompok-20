@@ -156,17 +156,21 @@ CREATE TABLE `news_comments` (
 --
 -- Table structure for table `reports`
 --
-
-CREATE TABLE `reports` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `cat_name` varchar(100) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `status` enum('Diterima','Diproses','Selesai Evakuasi') DEFAULT 'Diterima',
-  `image` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE reports (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    cat_name VARCHAR(100),
+    age VARCHAR(50),
+    gender VARCHAR(50),
+    breeds VARCHAR(100),
+    reporterContact VARCHAR(100),
+    location VARCHAR(255),
+    description TEXT,
+    status ENUM('Diterima', 'Diproses', 'Selesai Evakuasi') DEFAULT 'Diterima',
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
 -- --------------------------------------------------------
 
