@@ -82,52 +82,32 @@
 </template>
 
 <script setup>
-import Navbar from '@/components/Navbar.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { AuthApi } from "@/api/authApi.js"
 
 const router = useRouter()
 
-//Background dan Gambar
-const backgroundImage = '/src/assets/fish.png'
-const catImage = '/images/Asset Signup/kucing-report-button.png'
-
-// Data tombol social media
-const socialButtons = [
-  {
-    name: 'google',
-    label: 'Sign up with Google',
-    icon: '/images/Asset Signup/google-removebg-preview.png'
-  },
-  {
-    name: 'facebook',
-    label: 'Sign up with Facebook',
-    icon: '/images/Asset Signup/facebook-removebg-preview.png'
-  }
-]
-
-//Data input form
-const formFields = [
-  { model: 'name', type: 'text', placeholder: 'Full Name' },
-  { model: 'email', type: 'email', placeholder: 'Email Address' },
-  { model: 'password', type: 'password', placeholder: 'Password' }
-]
-
-//State data form
 const formData = ref({
   name: '',
   email: '',
   password: ''
 })
 
-// Fungsi Sign Up
-const handleSignup = () => {
-  const { name, email, password } = formData.value
-  if (name && email && password) {
-    alert('Account created successfully!')
-    router.push('/login')
-  } else {
-    alert('Please fill all fields!')
+const handleSignup = async () => {
+  try {
+    const res = await AuthApi.signup(formData.value)
+
+    if (res.data.success) {
+      alert("Signup success!")
+      router.push("/login")
+    } else {
+      alert("Signup gagal")
+    }
+  } catch (err) {
+    console.error(err)
+    alert("Server error")
   }
 }
+
 </script>

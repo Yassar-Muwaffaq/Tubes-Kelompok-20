@@ -6,7 +6,7 @@
     >
       <!-- Cat Image -->
       <img
-        src="/images/header/kucing-oren.png"
+        src="/images/Asset Login/kucing-oren.png"
         alt="Cat"
         class="absolute right-[45%] -top-30  h-50 object-contain"
       />
@@ -16,16 +16,18 @@
       <p class="text-gray-800 mt-2 text-sm">Log in your account</p>
 
       <!-- Login Form -->
-      <form class="mt-6 w-full flex flex-col space-y-4">
+      <form class="mt-6 w-full flex flex-col space-y-4" @submit.prevent="handleLogin">
         <input
           type="text"
-          placeholder="Enter your username"
-          class="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-800 focus:ring-2 focus:ring-yellow-400 focus:outline-none placeholder-gray-500"
+          v-model="email"
+          placeholder="Enter your email"
+          class="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-800"
         />
         <input
           type="password"
+          v-model="password"
           placeholder="Enter your password"
-           class="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-800 focus:ring-2 focus:ring-yellow-400 focus:outline-none placeholder-gray-500"
+          class="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-800"
         />
         <button
           type="submit"
@@ -43,7 +45,54 @@
     </div>
   </div>
 </template>
-
 <script setup>
-// Tidak perlu script tambahan
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { AuthApi } from "@/api/authApi"; // pastikan path cocok
+import { useAuth } from "@/composables/useAuth";
+
+const router = useRouter();
+const { setAuth } = useAuth();
+
+const email = ref("");
+const password = ref("");
+
+const handleLogin = async () => {
+  try {
+    const res = await AuthApi.login({
+      email: email.value,
+      password: password.value,
+    });
+
+    // jika backend mengirim error di body
+    if (res.data?.error) {
+      alert(res.data.error);
+      return;
+    }
+
+    // kalau backend mengembalikan token & user
+    const token = res.data.token;
+    const user = res.data.user;
+
+    if (!token || !user) {
+      alert("Login failed: invalid response from server");
+      return;
+    }
+
+    // simpan ke global auth (juga otomatis ke localStorage & axios header)
+    setAuth(user, token);
+
+    // redirect ke home
+    router.push("/");
+  } catch (err) {
+    console.error("Login error:", err);
+    if (err.response?.data?.error) {
+      alert(err.response.data.error);
+    } else {
+      alert("Server error");
+    }
+  }
+};
 </script>
+
+

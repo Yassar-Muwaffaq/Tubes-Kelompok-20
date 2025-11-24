@@ -6,9 +6,13 @@
         <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black tracking-tight">
           News About Us
         </h1>
+
         <p class="text-black mt-2 text-xs sm:text-sm md:text-base lg:text-lg">
           Get the latest stories from our cat community,
+
+          <!-- Hanya tampil kalau ada news -->
           <a
+            v-if="newsList.length > 0"
             href="/news"
             class="py-1.5 px-2 border-2 rounded-full border-[#ED8B3C] bg-[#ED8B3C] text-white hover:brightness-90 transition-all"
           >
@@ -17,8 +21,18 @@
         </p>
       </div>
 
-      <!-- Scroll Horizontal -->
-      <div class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 hide-scrollbar">
+      <!-- KALAU TIDAK ADA NEWS -->
+      <div v-if="newsList.length === 0" class="text-center py-10">
+        <p class="text-gray-600 text-lg font-medium">
+          No news we can give you for now.
+        </p>
+      </div>
+
+      <!-- KALAU ADA NEWS -->
+      <div
+        v-else
+        class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 hide-scrollbar"
+      >
         <!-- Kartu berita -->
         <div
           v-for="(news, index) in newsList"
@@ -56,7 +70,10 @@
           </div>
 
           <!-- Bar aksi -->
-          <div class="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50" @click.stop>
+          <div
+            class="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50"
+            @click.stop
+          >
             <div class="flex items-center gap-3">
               <button
                 @click.stop="toggleLike(index)"
@@ -91,7 +108,7 @@
       </div>
     </div>
 
-    <!-- POPUP (dari file terpisah) -->
+    <!-- POPUP -->
     <NewsModal
       :visible="modalVisible"
       :news="newsList[selectedIndex]"
@@ -116,20 +133,24 @@ onMounted(async () => {
   try {
     const { data } = await NewsApi.getNews()
     console.log('Berita diterima:', data)
-    // Jika API mengembalikan null atau bukan array, fallback ke []
+
     const allNews = Array.isArray(data) ? data : []
 
-    // Ambil komentar untuk setiap news secara sekuensial atau paralel
-    // (paralel lebih cepat — gunakan Promise.all)
-    const commentPromises = allNews.map(n => NewsApi.getComments(n.id).catch(() => ({ data: [] })))
+    const commentPromises = allNews.map(n =>
+      NewsApi.getComments(n.id).catch(() => ({ data: [] }))
+    )
     const commentsResults = await Promise.all(commentPromises)
 
-    // gabungkan hasil dan set default
     allNews.forEach((n, idx) => {
-      n.comments = Array.isArray(commentsResults[idx]?.data) ? commentsResults[idx].data : []
+      n.comments = Array.isArray(commentsResults[idx]?.data)
+        ? commentsResults[idx].data
+        : []
+
       n.desc = n.desc || n.content || ''
       n.likes = n.likes ?? 0
-      n.image = import.meta.env.VITE_STATIC_BASE_URL.replace(/\/$/, "") + (n.image || "/images/placeholder.jpg")
+      n.image =
+        import.meta.env.VITE_STATIC_BASE_URL.replace(/\/$/, '') +
+        (n.image || '/images/placeholder.jpg')
       n.reactions = n.reactions || {}
       n.newComment = n.newComment ?? ''
     })
@@ -156,13 +177,14 @@ function onModalClose() {
 function toggleLike(index) {
   if (!newsList.value[index]) return
   newsList.value[index].likes = (newsList.value[index].likes ?? 0) + 1
-  // TODO: kirim update ke backend jika ingin persist
 }
 
 function share(index) {
   const n = newsList.value[index]
   if (!n) return
-  navigator.clipboard.writeText(window.location.origin + '/news/' + encodeURIComponent(n.title || ''))
+  navigator.clipboard.writeText(
+    window.location.origin + '/news/' + encodeURIComponent(n.title || '')
+  )
 }
 
 function addReaction(index, emoji) {
@@ -173,20 +195,40 @@ function addReaction(index, emoji) {
 }
 
 function onModalUpdate({ index, updatedNews }) {
-  // pastikan index valid
   if (typeof index === 'number' && newsList.value[index]) {
-    newsList.value[index] = { ...newsList.value[index], ...updatedNews }
+    newsList.value[index] = {
+      ...newsList.value[index],
+      ...updatedNews
+    }
   } else if (updatedNews?.id) {
-    // fallback: temukan berdasarkan id
     const idx = newsList.value.findIndex(x => x.id === updatedNews.id)
-    if (idx !== -1) newsList.value[idx] = { ...newsList.value[idx], ...updatedNews }
+    if (idx !== -1)
+      newsList.value[idx] = {
+        ...newsList.value[idx],
+        ...updatedNews
+      }
   }
 }
 </script>
 
 <style scoped>
-.hide-scrollbar::-webkit-scrollbar { display: none; }
-.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>

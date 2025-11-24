@@ -4,6 +4,9 @@ import route from "./routes/route.js";
 import path from "path";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
+import AuthRoute from "./routes/AuthRoute.js"
+import newsRoute from "./routes/newsRoute.js"
+import UserRoute from "./routes/User.js"
 
 // Import database (opsional di sini jika hanya digunakan di route, 
 // tapi bagus untuk memastikan db terinisialisasi)
@@ -17,12 +20,15 @@ app.use(cors());
 // Untuk menerima JSON biasa
 app.use(express.json());
 
+app.use("/api/auth", AuthRoute)
+
+// Daftar routes
+app.use("/api", route);
+app.use("/api", newsRoute);
+app.use("/api", UserRoute);
+
 // Untuk menerima form-data + foto, kita tambahkan folder upload
 app.use("/uploads", express.static("uploads"));
-
-// Daftar route utama
-app.use("/api", route);
-
 const IMAGE_PATH = path.join(process.cwd(), "images");
 app.use("/images", express.static(IMAGE_PATH));
 

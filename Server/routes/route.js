@@ -38,26 +38,6 @@ router.post("/add-cat", async (req, res) => {
   }
 });
 
-/* ------------------ NEWS ------------------ */
-router.get('/news', async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM news ORDER BY created_at DESC');
-
-    const formattedNews = rows.map(item => ({
-      id: item.id,
-      title: item.title,
-      desc: item.content,
-      image: item.image || '/images/home/Cat 9.jpg',
-      likes: 0,
-      comments: [],
-      reactions: {}
-    }));
-
-    res.json(formattedNews);
-  } catch (error) {
-    res.status(500).json({ message: 'Gagal mengambil berita.' });
-  }
-});
 
 /* ------------------ CREATE REPORT + UPLOAD FOTO ------------------ */
 router.get("/reports", async (req, res) => {
