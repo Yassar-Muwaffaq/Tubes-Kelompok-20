@@ -18,25 +18,42 @@ const upload = multer({ storage });
 router.get("/cats", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM cats");
-    res.json(rows);
+
+    const base = `${req.protocol}://${req.get("host")}`;
+
+    const formatted = rows.map(cat => ({
+      ...cat,
+      image_url: cat.image
+        ? `${base}/uploads/${cat.image}`
+        : null
+    }));
+
+    res.json(formatted);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-/* ------------------ ADD CAT ------------------ */
-router.post("/add-cat", async (req, res) => {
-  const { name, age, breed } = req.body;
+
+/* ------------------ ADD CAT + UPLOAD PHOTO ------------------ */
+router.post("/add-cat", upload.single("image"), async (req, res) => {
+  const { name, age, gender, breed, description } = req.body;
+  const image = req.file ? req.file.filename : null;
+
   try {
     await db.query(
-      "INSERT INTO cats (name, age, breed) VALUES (?, ?, ?)", 
-      [name, age, breed]
+      `INSERT INTO cats (name, age, gender, breed, description, image)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [name, age, gender, breed, description, image]
     );
+
     res.json({ message: "Cat added successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 
