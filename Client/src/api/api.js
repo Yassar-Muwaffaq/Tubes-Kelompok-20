@@ -1,8 +1,6 @@
-import axios from 'axios'
-const API_URL = import.meta.env.VITE_API_BASE_URL //just incase aja butuh
-
-export const CatApi = {
-  getAll: () => axios.get('/cats'),
-  add: (data) => axios.post('/add-cat', data),
-}
-
+import axios from "axios";
+const api = axios.create({
+  baseURL: "http://localhost:5000/api", // Sesuaikan port backend
+  headers: { "Content-Type": "application/json" }
+});
+export default api;
