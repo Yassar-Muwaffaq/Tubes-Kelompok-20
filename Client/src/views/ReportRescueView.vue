@@ -131,11 +131,11 @@
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all mb-4"
             required
           />
-          <div class="h-40 bg-[#444] rounded-lg overflow-hidden shadow-md flex items-center justify-center">
-            <p class="p-4 text-sm text-[#bfbfbf] text-center">
-              Placeholder Peta - Integrasi Map API akan dilakukan di sini
-            </p>
-          </div>
+         <div 
+            id="map"
+            class="h-60 rounded-lg overflow-hidden shadow-md"
+          ></div>
+
         </label>
 
         <label class="block">
@@ -174,8 +174,69 @@
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from "vue";
 import axios from "axios";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+let map;
+let userMarker;
+let accuracyCircle;
+onMounted(() => {
+  // Inisialisasi map
+  map = L.map("map").setView([-6.9175, 107.6191], 13);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+  }).addTo(map);
+
+  let userMarker = null;
+  let accuracyCircle = null;
+
+  // Real-time tracking ala Gojek
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const accuracy = pos.coords.accuracy;
+
+        if (!userMarker) {
+          // Titik biru
+          userMarker = L.marker([lat, lng], {
+            icon: L.icon({
+              iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+              iconSize: [25, 25],
+            }),
+          }).addTo(map);
+
+          // Lingkaran akurasi
+          accuracyCircle = L.circle([lat, lng], {
+            radius: accuracy,
+            color: "#1E90FF",
+            fillColor: "#1E90FF",
+            fillOpacity: 0.2,
+          }).addTo(map);
+
+          // Fokuskan map
+          map.setView([lat, lng], 17);
+        } else {
+          userMarker.setLatLng([lat, lng]);
+          accuracyCircle.setLatLng([lat, lng]);
+          accuracyCircle.setRadius(accuracy);
+        }
+
+      },
+      (err) => {
+        console.error("GPS error:", err);
+        alert("Izinkan akses lokasi untuk menampilkan posisi Anda.");
+      },
+      { enableHighAccuracy: true }
+    );
+  }
+});
+
+
 
 //untuk preview gambar saat user add laporan
 const previewImages = ref([]);
@@ -222,7 +283,7 @@ const submitReport = async () => {
 
     alert("Laporan berhasil dikirim!");
 
-    //RESET FORM DI SINI, saat 
+    // RESET FORM
     form.value = {
       photos: [],
       name: '',
@@ -234,10 +295,15 @@ const submitReport = async () => {
       description: '',
     };
 
+    // RESET PREVIEW FOTO
+    previewImages.value = [];
+    document.getElementById("photos").value = "";
+
   } catch (error) {
     console.error("DETAIL ERROR:", error.response?.data || error.message);
     alert("Gagal mengirim laporan!");
   }
 };
+
 
 </script>
