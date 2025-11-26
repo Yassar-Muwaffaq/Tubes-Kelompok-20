@@ -8,7 +8,7 @@ const storedToken = localStorage.getItem("token");
 const user = ref(storedUser ? JSON.parse(storedUser) : null);
 const token = ref(storedToken || null);
 
-// kalau ada token saat app start, set default header axios
+// Set default Authorization header jika token ada
 if (token.value) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token.value}`;
 }
@@ -17,8 +17,11 @@ function setAuth(newUser, newToken) {
   user.value = newUser || null;
   token.value = newToken || null;
 
-  if (newUser) localStorage.setItem("user", JSON.stringify(newUser));
-  else localStorage.removeItem("user");
+  if (newUser) {
+    localStorage.setItem("user", JSON.stringify(newUser));
+  } else {
+    localStorage.removeItem("user");
+  }
 
   if (newToken) {
     localStorage.setItem("token", newToken);
