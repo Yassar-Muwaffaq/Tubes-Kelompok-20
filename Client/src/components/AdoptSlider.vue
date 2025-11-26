@@ -31,12 +31,18 @@
       >
         <div class="kitten-card">
           <img 
+            v-if="kitten.imageUrl && !kitten.imageError"
             :src="kitten.imageUrl" 
             :alt="kitten.name" 
-            @error="$event.target.src = '/images/default.jpg'" 
+            @error="kitten.imageError = true"
           />
+          
+          <div v-else class="no-image-placeholder">
+            <span class="no-image-text">Foto tidak tersedia</span>
+          </div>
+
           <div class="kitten-info">
-            <p class="age">{{ kitten.age || 'Usia ?' }}</p>
+            <p class="age">{{ kitten.age ? kitten.age + ' Tahun' : 'Usia ?' }}</p>
             <h3 class="name">{{ kitten.name }}</h3>
           </div>
         </div>
@@ -72,24 +78,32 @@ const currentRealIndex = ref(0);
 const kittens = ref([]);
 const loading = ref(true);
 
-// URL API Backend
 const API_URL = 'http://localhost:5000/api/cats';
 
-// Computed: Hanya aktifkan loop jika jumlah data lebih dari slidesPerView (3)
-// Ini mencegah glitch visual pada Swiper
 const shouldLoop = computed(() => kittens.value.length > 3);
 
 const fetchKittens = async () => {
   try {
     const response = await axios.get(API_URL);
     
-    // Mapping data dari backend
-    // Di route.js kamu, backend mengirim: { ..., image_url: "http://localhost:5000/..." }
-    kittens.value = response.data.map(cat => ({
-      ...cat,
-      // Prioritaskan image_url dari backend, jika null pakai default
-      imageUrl: cat.image_url || '/images/default.jpg' 
-    }));
+    kittens.value = response.data.map(cat => {
+      let finalImageUrl = null;
+
+      // Logika Path Gambar Backend vs Manual
+      if (cat.image && cat.image.startsWith('/images')) {
+        // Gambar statis (seeding manual)
+        finalImageUrl = cat.image; 
+      } else if (cat.image_url) {
+        // Gambar upload backend (sudah full URL dari backend)
+        finalImageUrl = cat.image_url;
+      }
+      
+      return {
+        ...cat,
+        imageUrl: finalImageUrl,
+        imageError: false // Status awal: gambar dianggap aman (belum error)
+      };
+    });
 
   } catch (err) {
     console.error("Gagal mengambil data:", err);
@@ -107,24 +121,18 @@ const onRealIndexChange = (swiper) => {
 };
 
 const goToAdoptDetail = () => {
-  // Pastikan array tidak kosong
   if (kittens.value.length === 0) return;
-
   const activeKitten = kittens.value[currentRealIndex.value];
-  
   if (activeKitten && activeKitten.id) {
     router.push(`/adopt-now/${activeKitten.id}`);
-  } else {
-    console.warn("Data kitten tidak valid untuk navigasi.");
   }
 };
 </script>
 
 <style scoped>
-/* Pastikan container swiper memiliki lebar pasti */
 .adopt-slider {
   width: 100%;
-  max-width: 1200px; /* Sesuaikan */
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
   text-align: center;
@@ -138,10 +146,9 @@ const goToAdoptDetail = () => {
   color: #666;
 }
 
-/* Kustomisasi Swiper agar tidak 'gepeng' */
 .mySwiper {
   width: 100%;
-  padding-bottom: 50px; /* Ruang untuk pagination */
+  padding-bottom: 50px;
 }
 
 .kitten-slide {
@@ -151,7 +158,6 @@ const goToAdoptDetail = () => {
   transition: transform 0.3s;
 }
 
-/* Efek slide tengah lebih besar (opsional, karena centered-slides=true) */
 .swiper-slide-active .kitten-card {
   transform: scale(1.1);
   z-index: 10;
@@ -162,22 +168,42 @@ const goToAdoptDetail = () => {
   background: white;
   border-radius: 15px;
   overflow: hidden;
-  width: 250px; /* Lebar kartu fix */
+  width: 250px;
   height: 350px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
   position: relative;
+  display: flex;       /* Tambahan agar layout rapi */
+  flex-direction: column;
 }
 
+/* Style Gambar */
 .kitten-card img {
   width: 100%;
-  height: 70%;
+  height: 250px;       /* Tinggi fix untuk area gambar */
   object-fit: cover;
+  display: block;
+}
+
+/* Style Pengganti Gambar (Kotak Abu-abu) */
+.no-image-placeholder {
+  width: 100%;
+  height: 250px;       /* Tinggi sama persis dengan img */
+  background-color: #e5e7eb; /* Abu-abu muda */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 1rem;
 }
 
 .kitten-info {
   padding: 1rem;
   text-align: left;
+  flex-grow: 1;        /* Mengisi sisa ruang ke bawah */
 }
 
 .kitten-info .age {
@@ -193,7 +219,7 @@ const goToAdoptDetail = () => {
 }
 
 .title {
-  font-family: 'Poppins', sans-serif; /* Sesuaikan font kamu */
+  font-family: 'Poppins', sans-serif;
   font-size: 2rem;
   font-weight: 800;
   margin: 2rem 0 1rem;
@@ -212,7 +238,7 @@ const goToAdoptDetail = () => {
 }
 
 .cat-button img {
-  width: 150px; /* Sesuaikan ukuran tombol gambar */
+  width: 150px;
 }
 
 .more-button-container {
@@ -228,7 +254,7 @@ const goToAdoptDetail = () => {
 }
 
 .see-more-btn:hover {
-  border-color: #FCD34D; /* Warna kuning */
+  border-color: #FCD34D;
   color: #333;
 }
 </style>

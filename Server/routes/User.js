@@ -27,7 +27,7 @@ router.get("/profile/:id", async (req, res) => {
 router.put("/profile/:id", async (req, res) => {
   try {
     const { name, date_of_birth, nik, shelter, phone, email, profile_image } = req.body;
-
+    console.log("Update Profile Data:", req.body);
     const [result] = await db.query(
       `UPDATE users SET 
        name = ?, 
