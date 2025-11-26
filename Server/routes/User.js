@@ -1,10 +1,11 @@
 import express from "express";
 import db from "../db.js";
-import { authenticateToken } from "./AuthRoute.js";
+import multer from "multer";
 
 const router = express.Router();
+const upload = multer({ dest: "uploads/" });
 
-// ambil profile
+// GET PROFILE
 router.get("/profile/:id", async (req, res) => {
   try {
     const [rows] = await db.query(
@@ -14,15 +15,15 @@ router.get("/profile/:id", async (req, res) => {
     );
 
     if (!rows.length) return res.status(404).json({ error: "User not found" });
-    res.json(rows[0]);
 
+    res.json(rows[0]);
   } catch (err) {
     console.error("Get Profile Error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// update profile
+// UPDATE PROFILE (tanpa multer & authenticateToken dulu)
 router.put("/profile/:id", async (req, res) => {
   try {
     const { name, date_of_birth, nik, shelter, phone, email, profile_image } = req.body;

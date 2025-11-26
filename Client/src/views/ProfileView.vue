@@ -16,22 +16,31 @@ const shelter = ref("");
 const email = ref("");
 const phone = ref("");
 
-// =========================
-// DATE FORMAT HELPERS
-// =========================
+// PROFILE IMAGE
+const profileImage = ref(null); // untuk preview
+const newProfileImageFile = ref(null);
+const fileInput = ref(null);
+
+// Helpers
 function formatDateForInput(sqlDate) {
   if (!sqlDate) return "";
-  return sqlDate.split("T")[0]; // Keep ONLY YYYY-MM-DD
+  return sqlDate.split("T")[0];
 }
 
 function normalizeDate(dateStr) {
   if (!dateStr) return null;
-  return dateStr; // already YYYY-MM-DD
+  return dateStr;
 }
 
-// =========================
-// LOAD USER DATA
-// =========================
+// Handle Upload
+function handleImageUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  newProfileImageFile.value = file;
+  profileImage.value = URL.createObjectURL(file);
+}
+
+// Load user data
 onMounted(() => {
   if (!user.value) return;
 
@@ -43,11 +52,13 @@ onMounted(() => {
   shelter.value = u.shelter || "";
   email.value = u.email || "";
   phone.value = u.phone || "";
+
+  profileImage.value = u.profile_image
+    ? u.profile_image
+    : "/images/vector/gabriel.svg";
 });
 
-// =========================
-// EDIT STATE
-// =========================
+// Edit
 function startEdit() {
   tempUser.value = {
     name: name.value,
@@ -56,11 +67,13 @@ function startEdit() {
     shelter: shelter.value,
     email: email.value,
     phone: phone.value,
+    profile_image: profileImage.value,
   };
 
   isEditing.value = true;
 }
 
+// Cancel Edit
 function cancelEdit() {
   const t = tempUser.value;
 
@@ -70,28 +83,33 @@ function cancelEdit() {
   shelter.value = t.shelter;
   email.value = t.email;
   phone.value = t.phone;
+  profileImage.value = t.profile_image;
+
+  newProfileImageFile.value = null;
 
   isEditing.value = false;
 }
 
-// =========================
 // SAVE PROFILE
-// =========================
 async function saveProfile() {
   try {
-    const payload = {
-      name: name.value,
-      date_of_birth: normalizeDate(date_of_birth.value),
-      nik: nik.value,
-      shelter: shelter.value,
-      phone: phone.value,
-      email: email.value,
-      profile_image: user.value.profile_image,
-    };
+    const form = new FormData();
 
-    const res = await AuthApi.updateProfile(user.value.id, payload);
+    form.append("name", name.value);
+    form.append("date_of_birth", normalizeDate(date_of_birth.value));
+    form.append("nik", nik.value);
+    form.append("shelter", shelter.value);
+    form.append("phone", phone.value);
+    form.append("email", email.value);
 
-    // Update global auth state
+    if (newProfileImageFile.value) {
+      form.append("profile_image", newProfileImageFile.value);
+    }
+
+    const res = await AuthApi.updateProfile(user.value.id, form, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
     setAuth(res.data.user, token.value);
 
     isEditing.value = false;
@@ -107,17 +125,39 @@ async function saveProfile() {
   <div class="bg-[#f7f1e8] min-h-screen flex flex-col items-center pt-16">
     <div class="relative bg-[#fef5dd] rounded-[25px] w-11/12 max-w-md shadow-lg overflow-visible">
 
-      <!-- cat image -->
-      <img src="/images/vector/kucingsetengah.PNG"
-        class="absolute -top-16 left-1/2 -translate-x-1/2 w-30 z-10" />
+      <img
+        src="/images/vector/kucingsetengah.PNG"
+        class="absolute -top-16 left-1/2 -translate-x-1/2 w-30 z-10"
+      />
 
-      <!-- header -->
       <div class="bg-[#ED8B3C] rounded-t-[25px] text-center py-16 px-5 relative z-1">
         <h1 class="text-2xl font-bold text-[#1c1c1c] mb-16">User Profile</h1>
 
         <div class="absolute -bottom-16 left-1/2 -translate-x-1/2 text-center z-5">
-          <img src="/images/vector/gabriel.svg"
-            class="w-28 h-28 rounded-full border-4 border-[#fef5dd] object-cover" />
+
+          <!-- FOTO PROFILE (view & edit sharing) -->
+          <img
+            :src="profileImage"
+            class="w-28 h-28 rounded-full border-4 border-[#fef5dd] object-cover"
+          />
+
+          <!-- BUTTON ADD PHOTO (EDIT MODE ONLY) -->
+          <div v-if="isEditing" class="mt-2 flex flex-col items-center">
+            <input
+              type="file"
+              ref="fileInput"
+              accept="image/*"
+              class="hidden"
+              @change="handleImageUpload"
+            />
+            <button
+              class="px-3 py-1 bg-orange-500 text-white rounded-lg text-sm hover:bg-orange-600"
+              @click="fileInput.click()"
+            >
+              Add Photo
+            </button>
+          </div>
+
           <p class="mt-2 text-sm text-gray-700">Profile Picture</p>
         </div>
       </div>
@@ -149,8 +189,10 @@ async function saveProfile() {
           <strong>No HP</strong><span>{{ phone }}</span>
         </div>
 
-        <button @click="startEdit"
-          class="mt-6 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        <button
+          @click="startEdit"
+          class="mt-6 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
           Edit Profile
         </button>
       </div>
@@ -160,48 +202,65 @@ async function saveProfile() {
 
         <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
           <strong>Name</strong>
-          <input v-model="name"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5" />
+          <input
+            v-model="name"
+            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
+          />
         </div>
 
         <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
           <strong>Date of Birth</strong>
-          <input v-model="date_of_birth"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5" />
+          <input
+            type="date"
+            v-model="date_of_birth"
+            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
+          />
         </div>
 
         <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
           <strong>NIK</strong>
-          <input v-model="nik"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5" />
+          <input
+            v-model="nik"
+            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
+          />
         </div>
 
         <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
           <strong>Shelter</strong>
-          <input v-model="shelter"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5" />
+          <input
+            v-model="shelter"
+            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
+          />
         </div>
 
         <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
           <strong>Email</strong>
-          <input v-model="email"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5" />
+          <input
+            v-model="email"
+            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
+          />
         </div>
 
         <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
           <strong>No HP</strong>
-          <input v-model="phone"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5" />
+          <input
+            v-model="phone"
+            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
+          />
         </div>
 
         <div class="flex gap-3 mt-6">
-          <button @click="saveProfile"
-            class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+          <button
+            @click="saveProfile"
+            class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          >
             Save
           </button>
 
-          <button @click="cancelEdit"
-            class="px-5 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition">
+          <button
+            @click="cancelEdit"
+            class="px-5 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition"
+          >
             Cancel
           </button>
         </div>
@@ -209,3 +268,4 @@ async function saveProfile() {
     </div>
   </div>
 </template>
+
