@@ -27,7 +27,7 @@ router.get("/cats", async (req, res) => {
         ? `${base}/uploads/${cat.image}`
         : null
     }));
-
+    console.log(formatted);
     res.json(formatted);
 
   } catch (err) {

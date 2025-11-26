@@ -1,5 +1,6 @@
 import express from "express";
 import db from "../db.js";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
@@ -9,6 +10,7 @@ const router = express.Router();
 // =======================
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
+
   if (!authHeader) return res.status(401).json({ error: "Token tidak ada" });
 
   const token = authHeader.split(" ")[1];
@@ -35,11 +37,13 @@ router.post("/signup", async (req, res) => {
     if (existing.length > 0)
       return res.status(400).json({ error: "Email sudah terdaftar" });
 
-    // Karena tidak pakai bcrypt:
+    // HASH PASSWORD (aman)
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     await db.query(
       `INSERT INTO users (name, email, password, role_id)
        VALUES (?, ?, ?, 2)`,
-      [name, email, password]
+      [name, email, hashedPassword]
     );
 
     res.json({ success: true, message: "Registrasi berhasil" });
@@ -55,6 +59,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password)
       return res.status(400).json({ error: "Email dan password wajib" });
 
@@ -67,8 +72,9 @@ router.post("/login", async (req, res) => {
 
     const user = rows[0];
 
-    // Tidak pakai bcrypt → langsung compare
-    if (user.password !== password)
+    // CEK PASSWORD HASH
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid)
       return res.status(400).json({ error: "Password salah" });
 
     const token = jwt.sign(
@@ -77,7 +83,6 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    // Kirim semua data yang diperlukan frontend
     res.json({
       message: "Login berhasil",
       token,
