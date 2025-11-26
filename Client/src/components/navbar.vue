@@ -29,8 +29,6 @@
           <button @click="scrollToSection('faq')" class="text-gray-900 hover:text-gray-800 transition">FAQ</button>
 
           <router-link to="/donate" class="text-gray-900 hover:text-gray-800 transition">Donate</router-link>
-          <router-link to="/dashboard" class="text-gray-900 hover:text-gray-800 transition">Dashboard</router-link>
-          <router-link to="/all-pages" class="text-gray-900 hover:text-gray-800 transition">Semua Halaman</router-link>
         </nav>
 
         <!-- Right Side (Desktop) -->
@@ -126,8 +124,6 @@
           </button>
 
           <router-link to="/donate" class="text-gray-900 hover:text-gray-800 transition">Donate</router-link>
-          <router-link to="/dashboard" class="text-gray-900 hover:text-gray-800 transition">Dashboard</router-link>
-          <router-link to="/all-pages" class="text-gray-900 hover:text-gray-800 transition">Semua Halaman</router-link>
 
           <!-- Auth Mobile -->
           <div v-if="!isLoggedIn" class="pt-3 border-t border-black">

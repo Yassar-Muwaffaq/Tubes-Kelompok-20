@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2025 at 01:00 AM
+-- Generation Time: Nov 26, 2025 at 01:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cat_adoption_system`
+-- Database: `f_adoption`
 --
 
 -- --------------------------------------------------------
@@ -156,21 +156,21 @@ CREATE TABLE `news_comments` (
 --
 -- Table structure for table `reports`
 --
-CREATE TABLE reports (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    cat_name VARCHAR(100),
-    age VARCHAR(50),
-    gender VARCHAR(50),
-    breeds VARCHAR(100),
-    reporterContact VARCHAR(100),
-    location VARCHAR(255),
-    description TEXT,
-    status ENUM('Diterima', 'Diproses', 'Selesai Evakuasi') DEFAULT 'Diterima',
-    image VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `cat_name` varchar(100) DEFAULT NULL,
+  `age` varchar(50) DEFAULT NULL,
+  `gender` varchar(50) DEFAULT NULL,
+  `breeds` varchar(100) DEFAULT NULL,
+  `reporterContact` varchar(100) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `status` enum('Diterima','Diproses','Selesai Evakuasi') DEFAULT 'Diterima',
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,6 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `username` varchar(100) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `nik` varchar(50) DEFAULT NULL,
   `shelter` varchar(150) DEFAULT NULL,
@@ -216,9 +215,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `role_id`, `name`, `username`, `date_of_birth`, `nik`, `shelter`, `phone`, `email`, `password`, `profile_image`, `created_at`) VALUES
-(1, 1, 'Admin Utama', NULL, NULL, NULL, NULL, NULL, 'admin@catrescue.com', 'admin123', NULL, '2025-11-23 02:30:39'),
-(2, 2, 'Yassar', NULL, NULL, NULL, NULL, NULL, 'yassar@example.com', 'password123', NULL, '2025-11-23 02:30:39');
+INSERT INTO `users` (`id`, `role_id`, `name`, `date_of_birth`, `nik`, `shelter`, `phone`, `email`, `password`, `profile_image`, `created_at`) VALUES
+(1, 1, 'Admin Utama', NULL, NULL, NULL, NULL, 'admin@catrescue.com', 'admin123', NULL, '2025-11-23 02:30:39'),
+(2, 2, 'Yassar', '2006-03-13', '321478198513', '', '08924782341', 'yassar@example.com', 'password123', NULL, '2025-11-23 02:30:39');
 
 --
 -- Indexes for dumped tables
