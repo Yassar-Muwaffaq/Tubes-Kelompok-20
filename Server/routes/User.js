@@ -5,7 +5,7 @@ import { authenticateToken } from "./AuthRoute.js";
 const router = express.Router();
 
 // ambil profile
-router.get("/profile/:id",  async (req, res) => {
+router.get("/profile/:id", async (req, res) => {
   try {
     const [rows] = await db.query(
       `SELECT id, name, date_of_birth, nik, shelter, phone, email, profile_image 

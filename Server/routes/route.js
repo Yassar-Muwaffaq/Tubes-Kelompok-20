@@ -108,4 +108,20 @@ router.post("/reports", upload.array("photos", 10), async (req, res) => {
   }
 });
 
+router.get("/users", async (req, res) => {
+    try {
+        const [rows] = await db.query("SELECT * FROM users");
+        res.json({
+            success: true,
+            data: rows
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+});
+
 export default router;
