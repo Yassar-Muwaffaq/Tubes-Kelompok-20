@@ -11,18 +11,14 @@
 
 ## ✨ Fitur Utama
 
-* **🏠 Beranda Interaktif**: Menampilkan *hero section*, slider kucing yang siap diadopsi, berita terbaru, dan informasi penting lainnya.
-* **🐈 Pusat Adopsi**:
-    * Katalog kucing dengan fitur pencarian dan filter berdasarkan ras dan lokasi.
-    * Fitur **Favorit** untuk menyimpan daftar kucing yang diminati.
+* **🏠 Home**: Menampilkan *hero section*, slider kucing yang siap diadopsi, report, berita terbaru, dan informasi penting lainnya.
+* **🐈 Pusat Adopsi (Adopt)**:
+    * Katalog kucing dengan fitur pencarian dan filter berdasarkan ras.
     * Halaman detail untuk setiap kucing.
     * Formulir pengajuan adopsi yang terintegrasi.
 * **📢 Report & Rescue**: Formulir untuk melaporkan kucing hilang atau kucing liar yang membutuhkan pertolongan, lengkap dengan upload foto dan lokasi.
 * **❤️ Donasi**: Halaman donasi dengan pilihan nominal cepat dan berbagai metode pembayaran (QRIS, Transfer Bank, E-Wallet).
-* **📰 Berita & Komunitas**:
-    * Artikel berita seputar dunia kucing.
-    * Interaksi pengguna melalui *like*, komentar, dan reaksi emoji.
-    * Fitur *share* artikel.
+* **About us** : jika kita klik bagian about us, user akan mengarahkan ke bagian About adopt center yang ada pada bagian Home.
 * **👤 Manajemen Pengguna**:
     * Halaman Login/Register (UI).
     * **Profil Pengguna**: Melihat dan mengedit informasi pribadi (disimpan sementara menggunakan `localStorage`).
