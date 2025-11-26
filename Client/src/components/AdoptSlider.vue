@@ -132,8 +132,9 @@ const goToAdoptDetail = () => {
 <style scoped>
 .adopt-slider {
   width: 100%;
-  max-width: 1200px;
+  max-width: fit-content;
   margin: 0 auto;
+  background-color: #f7f1e8;
   position: relative;
   text-align: center;
   padding: 2rem 0;
@@ -165,7 +166,7 @@ const goToAdoptDetail = () => {
 }
 
 .kitten-card {
-  background: white;
+  background: #f7f1e8;
   border-radius: 15px;
   overflow: hidden;
   width: 250px;
@@ -238,13 +239,22 @@ const goToAdoptDetail = () => {
 }
 
 .cat-button img {
-  width: 150px;
+  width: 120px;
 }
-
 .more-button-container {
   margin-top: 1rem;
-}
+  padding: 0.5rem 1rem; /* contoh padding */
+  width: fit-content;
 
+  /* Center the button */
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
+  
+  background-color: #ed8b3c;
+  border-radius: 5px; /* opsional biar lebih rapi */
+}
 .see-more-btn {
   text-decoration: none;
   color: #666;

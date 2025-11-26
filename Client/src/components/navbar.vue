@@ -38,14 +38,14 @@
           <template v-if="!isLoggedIn">
             <router-link
               to="/login"
-              class="px-4 py-1.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
+              class="px-4 py-1.5 bg-[#ED8B3C] text-white rounded-full hover:bg-gray-800 transition"
             >
               Log in
             </router-link>
 
             <router-link
               to="/sign-up"
-              class="px-4 py-1.5 border border-blue-600 text-blue-600 rounded-full hover:bg-blue-50 transition"
+              class="px-4 py-1.5 border border-[#ED8B3C] text-gray-800 rounded-full  transition"
             >
               Sign up
             </router-link>

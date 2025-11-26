@@ -46,7 +46,7 @@
               <p class="text-sm italic mt-2">{{ cat.description }}</p>
             </div>
             <img
-              :src="cat.imageUrl"
+              :src="cat.image"
               :alt="cat.name"
               class="w-32 h-32 object-cover rounded-lg shadow-lg"
             />
@@ -142,7 +142,7 @@
 
           <button
             type="submit"
-            class="w-full mt-4 bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all"
+            class="w-full mt-4 bg-[#ed8b3c] text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all"
           >
             Kirim Formulir Adopsi
           </button>
@@ -155,89 +155,70 @@
 </template>
 
 <script setup>
-import ContactUs from "@/components/ContactUs.vue";
 import { ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+import ContactUs from "@/components/ContactUs.vue";
 
-const router = useRouter();
 const route = useRoute();
-
-const cats = [
-  {
-    id: 1,
-    name: "Milo",
-    age: "7 Bulan",
-    breed: "Persian Breeds",
-    location: "Bandung",
-    description:
-      "Milo adalah kucing jantan berusia 7 bulan yang aktif dan sangat ramah. Dia cocok untuk keluarga dengan anak-anak.",
-    imageUrl: "https://i.imgur.com/Gj3Hj0c.jpg",
-  },
-  {
-    id: 2,
-    name: "Luna",
-    age: "1 Tahun",
-    breed: "British Shorthair",
-    location: "Jakarta",
-    description:
-      "Luna memiliki bulu abu-abu halus dan mata bulat besar. Dia tenang, manja, dan suka tidur di pangkuan.",
-    imageUrl: "https://i.imgur.com/s7ZzvED.jpg",
-  },
-  {
-    id: 3,
-    name: "Oreo",
-    age: "5 Bulan",
-    breed: "Domestic Short Hair",
-    location: "Surabaya",
-    description:
-      "Oreo adalah kucing lucu penuh energi yang suka bermain bola dan mengejar mainan.",
-    imageUrl: "https://i.imgur.com/jf2rFj3.jpg",
-  },
-  {
-    id: 4,
-    name: "Simba",
-    age: "2 Tahun",
-    breed: "Maine Coon",
-    location: "Yogyakarta",
-    description:
-      "Simba punya tubuh besar tapi berhati lembut. Cocok untuk rumah dengan ruang luas.",
-    imageUrl: "https://i.imgur.com/szU2Q7I.jpg",
-  },
-  {
-    id: 5,
-    name: "Nala",
-    age: "9 Bulan",
-    breed: "Siamese",
-    location: "Denpasar",
-    description:
-      "Nala sangat komunikatif dan suka bermanja. Sudah divaksin lengkap dan steril.",
-    imageUrl: "https://i.imgur.com/6rRZQlx.jpg",
-  },
-];
+const router = useRouter();
 
 const cat = ref(null);
+const isLoading = ref(false);
 const form = ref({
   name: "",
   email: "",
   phone: "",
   address: "",
-  agreed: false,
+  agreed: false
 });
 
-onMounted(() => {
-  const id = parseInt(route.params.id);
-  cat.value = cats.find((c) => c.id === id) || null;
+onMounted(async () => {
+  const id = route.params.id;
+
+  try {
+    const res = await axios.get(`http://localhost:5000/api/adoption/${id}`);
+    console.log(res.data)
+    cat.value = res.data;
+  } catch (err) {
+    console.error(err);
+    cat.value = null;
+  }
 });
 
 const goToTerms = () => router.push("/terms");
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   if (!form.value.agreed) {
     alert("Harap centang persetujuan Syarat & Ketentuan terlebih dahulu.");
     return;
   }
 
-  alert(`Formulir adopsi untuk ${cat.value.name} telah berhasil dikirim!`);
-  console.log("Form Data:", form.value);
+  isLoading.value = true;
+
+  try {
+    const payload = {
+      user_name: form.value.name,
+      email: form.value.email,
+      phone: form.value.phone,
+      address: form.value.address,
+      cat_id: cat.value.id,
+    };
+
+    const res = await axios.post("http://localhost:5000/api/adoptions", payload);
+
+    if (res.data.success) {
+      alert("Formulir adopsi berhasil dikirim!");
+      form.value = { name: "", email: "", phone: "", address: "", agreed: false };
+    } else {
+      alert("Gagal mengirim formulir: " + (res.data.error || "Unknown error"));
+    }
+  } catch (err) {
+    console.error(err);
+    alert(err.response?.data?.error || "Terjadi kesalahan server");
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
+

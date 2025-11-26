@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import AuthRoute from "./routes/AuthRoute.js"
 import newsRoute from "./routes/newsRoute.js"
 import UserRoute from "./routes/User.js"
+import AdoptionRoute from "./routes/adoptionRoute.js"
 
 // Import database (opsional di sini jika hanya digunakan di route, 
 // tapi bagus untuk memastikan db terinisialisasi)
@@ -26,6 +27,7 @@ app.use("/api/auth", AuthRoute)
 app.use("/api", route);
 app.use("/api", newsRoute);
 app.use("/api", UserRoute);
+app.use("/api", AdoptionRoute);
 
 // Untuk menerima form-data + foto, kita tambahkan folder upload
 app.use("/uploads", express.static("uploads"));

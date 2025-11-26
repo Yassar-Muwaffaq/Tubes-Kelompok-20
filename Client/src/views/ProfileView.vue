@@ -16,11 +16,6 @@ const shelter = ref("");
 const email = ref("");
 const phone = ref("");
 
-// PROFILE IMAGE
-const profileImage = ref(null); // untuk preview
-const newProfileImageFile = ref(null);
-const fileInput = ref(null);
-
 // Helpers
 function formatDateForInput(sqlDate) {
   if (!sqlDate) return "";
@@ -35,9 +30,8 @@ function normalizeDate(dateStr) {
 // Handle Upload
 function handleImageUpload(e) {
   const file = e.target.files[0];
-  if (!file) return;
-  newProfileImageFile.value = file;
-  profileImage.value = URL.createObjectURL(file);
+  if (!file) return
+
 }
 
 // Load user data
@@ -53,9 +47,6 @@ onMounted(() => {
   email.value = u.email || "";
   phone.value = u.phone || "";
 
-  profileImage.value = u.profile_image
-    ? u.profile_image
-    : "/images/vector/gabriel.svg";
 });
 
 // Edit
@@ -67,7 +58,6 @@ function startEdit() {
     shelter: shelter.value,
     email: email.value,
     phone: phone.value,
-    profile_image: profileImage.value,
   };
 
   isEditing.value = true;
@@ -83,9 +73,6 @@ function cancelEdit() {
   shelter.value = t.shelter;
   email.value = t.email;
   phone.value = t.phone;
-  profileImage.value = t.profile_image;
-
-  newProfileImageFile.value = null;
 
   isEditing.value = false;
 }
@@ -102,9 +89,6 @@ async function saveProfile() {
     form.append("phone", phone.value);
     form.append("email", email.value);
 
-    if (newProfileImageFile.value) {
-      form.append("profile_image", newProfileImageFile.value);
-    }
 
     const res = await AuthApi.updateProfile(user.value.id, form, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -130,36 +114,8 @@ async function saveProfile() {
         class="absolute -top-16 left-1/2 -translate-x-1/2 w-30 z-10"
       />
 
-      <div class="bg-[#ED8B3C] rounded-t-[25px] text-center py-16 px-5 relative z-1">
+      <div class="bg-[#ED8B3C] rounded-t-[25px] text-center py-1 px-5 pt-10 mt-5 relative z-1">
         <h1 class="text-2xl font-bold text-[#1c1c1c] mb-16">User Profile</h1>
-
-        <div class="absolute -bottom-16 left-1/2 -translate-x-1/2 text-center z-5">
-
-          <!-- FOTO PROFILE (view & edit sharing) -->
-          <img
-            :src="profileImage"
-            class="w-28 h-28 rounded-full border-4 border-[#fef5dd] object-cover"
-          />
-
-          <!-- BUTTON ADD PHOTO (EDIT MODE ONLY) -->
-          <div v-if="isEditing" class="mt-2 flex flex-col items-center">
-            <input
-              type="file"
-              ref="fileInput"
-              accept="image/*"
-              class="hidden"
-              @change="handleImageUpload"
-            />
-            <button
-              class="px-3 py-1 bg-orange-500 text-white rounded-lg text-sm hover:bg-orange-600"
-              @click="fileInput.click()"
-            >
-              Add Photo
-            </button>
-          </div>
-
-          <p class="mt-2 text-sm text-gray-700">Profile Picture</p>
-        </div>
       </div>
 
       <!-- VIEW MODE -->
@@ -191,7 +147,7 @@ async function saveProfile() {
 
         <button
           @click="startEdit"
-          class="mt-6 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          class="mt-6 px-5 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-300 transition"
         >
           Edit Profile
         </button>
