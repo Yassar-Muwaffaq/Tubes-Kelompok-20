@@ -107,120 +107,135 @@ async function saveProfile() {
 
 <template>
   <div class="bg-[#f7f1e8] min-h-screen flex flex-col items-center pt-16">
-    <div class="relative bg-[#fef5dd] rounded-[25px] w-11/12 max-w-md shadow-lg overflow-visible">
+    <div class="relative bg-white rounded-2xl w-11/12 max-w-md shadow-md border border-gray-100 overflow-visible p-6">
+
 
       <img
         src="/images/vector/kucingsetengah.PNG"
         class="absolute -top-16 left-1/2 -translate-x-1/2 w-30 z-10"
       />
 
-      <div class="bg-[#ED8B3C] rounded-t-[25px] text-center py-1 px-5 pt-10 mt-5 relative z-1">
-        <h1 class="text-2xl font-bold text-[#1c1c1c] mb-16">User Profile</h1>
+      <div class="text-center py-6 border-b border-gray-200 mb-6">
+        <h1 class="text-3xl font-extrabold text-gray-900">User Profile</h1>
       </div>
+
+
 
       <!-- VIEW MODE -->
-      <div v-if="!isEditing" class="mt-20 flex flex-col gap-2 px-6 pb-7">
+      <div v-if="!isEditing" class="mt-20 space-y-4 px-6 pb-10">
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Name</strong><span>{{ name }}</span>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+    <p class="text-sm text-gray-500 font-semibold">Name</p>
+    <p class="text-gray-800">{{ name }}</p>
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Date of Birth</strong><span>{{ date_of_birth }}</span>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+    <p class="text-sm text-gray-500 font-semibold">Date of Birth</p>
+    <p class="text-gray-800">{{ date_of_birth }}</p>
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>NIK</strong><span>{{ nik }}</span>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+    <p class="text-sm text-gray-500 font-semibold">NIK</p>
+    <p class="text-gray-800">{{ nik }}</p>
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Shelter</strong><span>{{ shelter }}</span>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+    <p class="text-sm text-gray-500 font-semibold">Shelter</p>
+    <p class="text-gray-800">{{ shelter }}</p>
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Email</strong><span>{{ email }}</span>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+    <p class="text-sm text-gray-500 font-semibold">Email</p>
+    <p class="text-gray-800">{{ email }}</p>
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>No HP</strong><span>{{ phone }}</span>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+    <p class="text-sm text-gray-500 font-semibold">No HP</p>
+    <p class="text-gray-800">{{ phone }}</p>
+  </div>
 
-        <button
-          @click="startEdit"
-          class="mt-6 px-5 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-300 transition"
-        >
-          Edit Profile
-        </button>
-      </div>
+  <button
+    @click="startEdit"
+    class="w-full mt-4 bg-[#ED8B3C] text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all"
+  >
+    Edit Profile
+  </button>
+
+</div>
+
 
       <!-- EDIT MODE -->
-      <div v-else class="mt-20 flex flex-col gap-2 px-6 pb-7">
+<div v-else class="mt-20 space-y-5 px-6 pb-10">
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Name</strong>
-          <input
-            v-model="name"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
-          />
-        </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+    <input
+      v-model="name"
+      type="text"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ED8B3C]"
+    />
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Date of Birth</strong>
-          <input
-            type="date"
-            v-model="date_of_birth"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
-          />
-        </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+    <input
+      type="date"
+      v-model="date_of_birth"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ED8B3C]"
+    />
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>NIK</strong>
-          <input
-            v-model="nik"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
-          />
-        </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">NIK</label>
+    <input
+      v-model="nik"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ED8B3C]"
+    />
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Shelter</strong>
-          <input
-            v-model="shelter"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
-          />
-        </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Shelter</label>
+    <input
+      v-model="shelter"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ED8B3C]"
+    />
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>Email</strong>
-          <input
-            v-model="email"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
-          />
-        </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+    <input
+      v-model="email"
+      type="email"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ED8B3C]"
+    />
+  </div>
 
-        <div class="flex justify-between bg-[#fff8ee] rounded-lg px-3 py-2 text-gray-700 text-sm">
-          <strong>No HP</strong>
-          <input
-            v-model="phone"
-            class="bg-transparent border-b border-gray-300 text-right text-sm outline-none w-3/5"
-          />
-        </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">No HP</label>
+    <input
+      v-model="phone"
+      type="tel"
+      class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ED8B3C]"
+    />
+  </div>
 
-        <div class="flex gap-3 mt-6">
-          <button
-            @click="saveProfile"
-            class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-          >
-            Save
-          </button>
+  <div class="flex gap-4 pt-4">
+    <button
+      @click="saveProfile"
+      class="w-1/2 bg-[#ED8B3C] text-white py-2 rounded-lg font-semibold hover:bg-gray-700 transition-all"
+    >
+      Save
+    </button>
 
-          <button
-            @click="cancelEdit"
-            class="px-5 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
+    <button
+      @click="cancelEdit"
+      class="w-1/2 bg-gray-400 text-white py-2 rounded-lg font-semibold hover:bg-gray-500 transition-all"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+
     </div>
   </div>
 </template>

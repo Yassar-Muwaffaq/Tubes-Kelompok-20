@@ -30,7 +30,7 @@ app.use("/api", UserRoute);
 app.use("/api", AdoptionRoute);
 
 // Untuk menerima form-data + foto, kita tambahkan folder upload
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 const IMAGE_PATH = path.join(process.cwd(), "images");
 app.use("/images", express.static(IMAGE_PATH));
 

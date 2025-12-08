@@ -44,7 +44,7 @@ CREATE TABLE `adoptions` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
-  `adoption_date` date DEFAULT curdate(),
+  `adoption_date` DATE DEFAULT NULL,
   `status` enum('Menunggu','Disetujui','Ditolak','Proses Evakuasi') DEFAULT 'Menunggu'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

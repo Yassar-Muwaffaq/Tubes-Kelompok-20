@@ -1,8 +1,10 @@
 import express from "express";
 import db from "../db.js";
 import multer from "multer";
+import path from "path";
 
 const router = express.Router();
+
 const upload = multer({ dest: "uploads/" });
 
 // GET PROFILE
@@ -57,5 +59,32 @@ router.put("/profile/:id", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+router.patch("/users/:id/photo", upload.single("profile_image"), async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Tidak ada file yang diunggah" });
+    }
+
+    const filePath = req.file.path; // contoh: uploads/profile_12345.png
+
+    const [rows] = await db.query(
+      "UPDATE users SET profile_image = ? WHERE id = ?",
+      [filePath, userId]
+    );
+
+    res.json({
+      message: "Foto profil berhasil diperbarui",
+      profile_image: filePath,
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Gagal upload foto" });
+  }
+});
+
 
 export default router;
