@@ -33,13 +33,14 @@
           alt="Magnifying glass"
           class="absolute left-0 -ml-10 top-1/2 -translate-y-1/2 w-15 sm:w-10"
         />
-        <RouterLink to="/report-rescue" class="bg-red-600 hover:bg-red-700
-          text-black font-semibold
-          rounded-xl!
-          px-10 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl flex items-center gap-2 transition-transform hover:-translate-x-0.5"
-        >
-          REPORT
-        </RouterLink>
+         <RouterLink to="/report-rescue" 
+        class="bg-[#ed8b3c] hover:bg-[#ed8b3c]
+              text-white font-semibold
+              rounded-xl!
+              px-10 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl flex items-center gap-2 
+              transition-transform hover:-translate-x-0.5">
+        REPORT
+      </RouterLink>
       </div>
     </div>
   </section>

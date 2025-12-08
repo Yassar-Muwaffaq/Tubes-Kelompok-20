@@ -69,6 +69,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination } from 'swiper/modules';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -89,19 +90,16 @@ const fetchKittens = async () => {
     kittens.value = response.data.map(cat => {
       let finalImageUrl = null;
 
-      // Logika Path Gambar Backend vs Manual
       if (cat.image && cat.image.startsWith('/images')) {
-        // Gambar statis (seeding manual)
         finalImageUrl = cat.image; 
       } else if (cat.image_url) {
-        // Gambar upload backend (sudah full URL dari backend)
         finalImageUrl = cat.image_url;
       }
       
       return {
         ...cat,
         imageUrl: finalImageUrl,
-        imageError: false // Status awal: gambar dianggap aman (belum error)
+        imageError: false
       };
     });
 
@@ -130,6 +128,7 @@ const goToAdoptDetail = () => {
 </script>
 
 <style scoped>
+/* (STYLE TIDAK DIUBAH - INI DARI HEAD) */
 .adopt-slider {
   width: 100%;
   max-width: fit-content;
@@ -174,23 +173,20 @@ const goToAdoptDetail = () => {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
   position: relative;
-  display: flex;       /* Tambahan agar layout rapi */
+  display: flex;
   flex-direction: column;
 }
 
-/* Style Gambar */
 .kitten-card img {
   width: 100%;
-  height: 250px;       /* Tinggi fix untuk area gambar */
+  height: 250px;
   object-fit: cover;
-  display: block;
 }
 
-/* Style Pengganti Gambar (Kotak Abu-abu) */
 .no-image-placeholder {
   width: 100%;
-  height: 250px;       /* Tinggi sama persis dengan img */
-  background-color: #e5e7eb; /* Abu-abu muda */
+  height: 250px;
+  background-color: #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,7 +200,7 @@ const goToAdoptDetail = () => {
 .kitten-info {
   padding: 1rem;
   text-align: left;
-  flex-grow: 1;        /* Mengisi sisa ruang ke bawah */
+  flex-grow: 1;
 }
 
 .kitten-info .age {
@@ -234,30 +230,24 @@ const goToAdoptDetail = () => {
   transition: transform 0.2s;
 }
 
-.cat-button:hover {
-  transform: scale(1.05);
-}
-
 .cat-button img {
   width: 120px;
 }
+
 .more-button-container {
   margin-top: 1rem;
-  padding: 0.5rem 1rem; /* contoh padding */
+  padding: 0.5rem 1rem;
   width: fit-content;
-
-  /* Center the button */
   margin-left: auto;
   margin-right: auto;
-
   text-align: center;
-  
   background-color: #ed8b3c;
-  border-radius: 5px; /* opsional biar lebih rapi */
+  border-radius: 5px;
 }
+
 .see-more-btn {
   text-decoration: none;
-  color: #666;
+  color: #f9f5f5;
   font-weight: 600;
   border-bottom: 2px solid transparent;
   transition: border-color 0.3s;

@@ -10,12 +10,12 @@
       <!-- Form -->
       <form
         @submit.prevent="submitReport"
-        class="bg-[#2a2a2a] p-6 sm:p-10 rounded-3xl shadow-2xl space-y-6 border border-[#3d3d3d]"
+        class="bg-[#FCD34D] p-6 sm:p-10 rounded-3xl shadow-2xl space-y-6 border border-[#FFBC00]"
       >
+
         <!-- Upload Foto -->
-      <!-- Perbaruan di bagian agar foto tertampil di form saat user add laporam -->
-       <div
-          class="bg-[#3b3b3b] p-6 rounded-xl text-center shadow-inner border border-[#4a4a4a]"
+        <div
+          class="bg-[#FFFFFF] p-6 rounded-xl text-center shadow-inner border border-[#4a4a4a]"
         >
           <!-- Jika belum upload foto -->
           <label v-if="previewImages.length === 0" for="photos" class="cursor-pointer">
@@ -58,37 +58,36 @@
           />
         </div>
 
-
         <!-- Input fields -->
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Name</span>
+          <span class="text-black font-semibold">Name</span>
           <input
             v-model="form.name"
             type="text"
             placeholder="Nama Kucing (jika tahu)"
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           />
         </label>
 
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Age</span>
+          <span class="text-black font-semibold">Age</span>
           <input
             v-model="form.age"
             type="text"
             placeholder="Estimasi Umur"
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           />
         </label>
 
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Gender</span>
+          <span class="text-black font-semibold">Gender</span>
           <select
             v-model="form.gender"
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
           >
             <option value="" disabled>Pilih Jenis Kelamin</option>
@@ -99,52 +98,52 @@
         </label>
 
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Breeds</span>
+          <span class="text-black font-semibold">Breeds</span>
           <input
             v-model="form.breeds"
             type="text"
             placeholder="Ras (Domestik/Persia/dll.)"
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
           />
         </label>
 
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Reporter's contact</span>
+          <span class="text-black font-semibold">Reporter's contact</span>
           <input
             v-model="form.reporterContact"
             type="tel"
             placeholder="Nomor Telepon/Email"
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           />
         </label>
 
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Last Location</span>
+          <span class="text-black font-semibold">Last Location</span>
           <input
             v-model="form.lastLocation"
             type="text"
             placeholder="Alamat/Deskripsi Lokasi"
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all mb-4"
             required
           />
-         <div 
+
+          <div 
             id="map"
             class="h-60 rounded-lg overflow-hidden shadow-md"
           ></div>
-
         </label>
 
         <label class="block">
-          <span class="text-[#e6dccb] font-semibold">Description</span>
+          <span class="text-black font-semibold">Description</span>
           <textarea
             v-model="form.description"
             rows="4"
             placeholder="Jelaskan kondisi kucing, ciri-ciri khusus, dan perilaku."
-            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+            class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           ></textarea>
@@ -153,12 +152,11 @@
         <!-- Tombol -->
         <button
           type="submit"
-          class="w-full py-3 text-lg font-bold text-white rounded-lg shadow-lg transition-all duration-300 bg-[#f76c5b] hover:bg-[#e65c4b] transform hover:scale-[1.01]"
+          class="w-full py-3 text-lg font-bold text-black rounded-lg shadow-lg transition-all duration-60000 bg-[#FFA500] hover:bg-[#FF8C00] transform hover:scale-[1.01]"
         >
           Make a report
         </button>
       </form>
-
     </div>
 
     <!-- Kucing dekorasi -->
@@ -172,16 +170,19 @@
   </main>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 let map;
 let userMarker;
 let accuracyCircle;
+
 onMounted(() => {
   // Inisialisasi map
   map = L.map("map").setView([-6.9175, 107.6191], 13);
@@ -193,7 +194,7 @@ onMounted(() => {
   let userMarker = null;
   let accuracyCircle = null;
 
-  // Real-time tracking ala Gojek
+  // Real-time GPS tracking
   if (navigator.geolocation) {
     navigator.geolocation.watchPosition(
       (pos) => {
@@ -202,7 +203,6 @@ onMounted(() => {
         const accuracy = pos.coords.accuracy;
 
         if (!userMarker) {
-          // Titik biru
           userMarker = L.marker([lat, lng], {
             icon: L.icon({
               iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -210,7 +210,6 @@ onMounted(() => {
             }),
           }).addTo(map);
 
-          // Lingkaran akurasi
           accuracyCircle = L.circle([lat, lng], {
             radius: accuracy,
             color: "#1E90FF",
@@ -218,14 +217,12 @@ onMounted(() => {
             fillOpacity: 0.2,
           }).addTo(map);
 
-          // Fokuskan map
           map.setView([lat, lng], 17);
         } else {
           userMarker.setLatLng([lat, lng]);
           accuracyCircle.setLatLng([lat, lng]);
           accuracyCircle.setRadius(accuracy);
         }
-
       },
       (err) => {
         console.error("GPS error:", err);
@@ -236,74 +233,27 @@ onMounted(() => {
   }
 });
 
-
-
-//untuk preview gambar saat user add laporan
+// Preview gambar
 const previewImages = ref([]);
 
 const form = ref({
   photos: [],
-  name: '',
-  age: '',
-  gender: '',
-  breeds: '',
-  reporterContact:'',
-  lastLocation: '',
-  description: '',
+  name: "",
+  age: "",
+  gender: "",
+  breeds: "",
+  reporterContact: "",
+  lastLocation: "",
+  description: "",
 });
 
-//upload dan preview photo
 const handleFileUpload = (event) => {
   const files = Array.from(event.target.files);
   form.value.photos = files;
-  previewImages.value = files.map(file => URL.createObjectURL(file));
+  previewImages.value = files.map((file) => URL.createObjectURL(file));
 };
 
 const submitReport = async () => {
-  try {
-    const formData = new FormData();
-
-    // Upload file
-    form.value.photos.forEach(file => {
-      formData.append("photos", file);
-    });
-
-    formData.append("cat_name", form.value.name);
-    formData.append("age", form.value.age);
-    formData.append("gender", form.value.gender);
-    formData.append("breeds", form.value.breeds);
-    formData.append("reporterContact", form.value.reporterContact);
-    formData.append("location", form.value.lastLocation);
-    formData.append("description", form.value.description);
-    formData.append("user_id", 1);
-
-    await axios.post("http://localhost:5000/api/reports", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    alert("Laporan berhasil dikirim!");
-
-    // RESET FORM
-    form.value = {
-      photos: [],
-      name: '',
-      age: '',
-      gender: '',
-      breeds: '',
-      reporterContact: '',
-      lastLocation: '',
-      description: '',
-    };
-
-    // RESET PREVIEW FOTO
-    previewImages.value = [];
-    document.getElementById("photos").value = "";
-
-  } catch (error) {
-    console.error("DETAIL ERROR:", error.response?.data || error.message);
-    alert("Gagal mengirim laporan!");
-  }
+  // form submit logic di sini
 };
-
-
 </script>

@@ -1,10 +1,10 @@
 <template>
-  <section class="pt-24 pb-16 bg-[#f7f1e8] min-h-screen ">
+  <section class="pt-24 pb-16 bg-[#f7f1e8] min-h-screen">
     <!-- Hero -->
     <div class="max-w-6xl mx-auto px-6 text-center">
       <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mb-4">Support Our Cats ❤️</h1>
       <p class="text-gray-600 mb-8 text-base md:text-lg">
-        Every donation helps us rescue, feed, and care for abandoned cats.  
+        Every donation helps us rescue, feed, and care for abandoned cats.
         100% of your support goes directly to the welfare of our feline friends.
       </p>
       <img
@@ -41,7 +41,7 @@
           v-model.number="customAmount"
           type="number"
           placeholder="Enter custom amount (Rp)"
-          class="w-2/3 sm:w-1/2 border border-gray-300 rounded-full px-5 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-2/3 sm:w-1/2 border border-[#FCD34D] bg-[#FCD34D] rounded-full px-5 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -71,14 +71,14 @@
         <button
           @click="donate"
           :disabled="!finalAmount || !selectedMethod"
-          class="px-8 py-3 rounded-full font-semibold text-white transition-all"
+          class="px-8 py-3 rounded-full font-semibold transition-all"
           :class="[
             finalAmount && selectedMethod
-              ? 'bg-blue-600 hover:bg-blue-700'
-              : 'bg-gray-300 cursor-not-allowed'
+              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              : 'bg-[#FCD34D] text-gray-600 cursor-not-allowed'
           ]"
         >
-          Donate Now ❤️
+          Donate Now
         </button>
       </div>
     </div>
@@ -87,7 +87,11 @@
     <div class="max-w-6xl mx-auto mt-20 px-6 text-center">
       <h2 class="text-3xl font-semibold text-gray-800 mb-8">Your Donations Make a Difference</h2>
       <div class="grid md:grid-cols-3 gap-6">
-        <div v-for="(item, i) in impacts" :key="i" class="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+        <div
+          v-for="(item, i) in impacts"
+          :key="i"
+          class="bg-white rounded-2xl shadow-md p-6 border border-gray-100"
+        >
           <img :src="item.image" class="w-full h-48 object-cover rounded-xl mb-4" />
           <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ item.title }}</h3>
           <p class="text-gray-600 text-sm">{{ item.desc }}</p>
@@ -100,42 +104,39 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-// quick donation buttons
 const quickAmounts = [10000, 25000, 50000, 100000, 250000]
 const selectedAmount = ref(null)
 const customAmount = ref(null)
 
 const finalAmount = computed(() => customAmount.value || selectedAmount.value)
 
-// payment methods
 const paymentMethods = [
-  { name: 'qris', label: 'QRIS', icon: '/images/icons/qris.svg' },
-  { name: 'bca', label: 'BCA Transfer', icon: '/images/icons/bank.svg' },
-  { name: 'gopay', label: 'GoPay', icon: '/images/icons/gopay.svg' },
-  { name: 'ovo', label: 'OVO', icon: '/images/icons/ovo.svg' },
+  { name: 'qris', label: 'QRIS', icon: '/images/icons/qris.jpg' },
+  { name: 'bca', label: 'BCA Transfer', icon: '/images/icons/bank.jpg' },
+  { name: 'gopay', label: 'GoPay', icon: '/images/icons/gopay.jpg' },
+  { name: 'ovo', label: 'OVO', icon: '/images/icons/ovo.jpg' },
 ]
+
 const selectedMethod = ref(null)
 
-// our impact cards
 const impacts = [
   {
     title: '50+ Cats Rescued',
     desc: 'We’ve successfully rescued more than 50 cats this year from dangerous environments.',
-    image: '/images/header/Cat 9.jpg',
+    image: '/images/home/kucingsakit.jpg',
   },
   {
     title: 'Healthy Meals Daily',
     desc: 'Your donations provide food for our rescued cats every single day.',
-    image: '/images/header/Cat 9.jpg',
+    image: '/images/home/kucingdonate.jpg',
   },
   {
     title: 'Medical Care',
     desc: 'Donations help cover vaccination, sterilization, and emergency vet treatments.',
-    image: '/images/header/Cat 9.jpg',
+    image: '/images/home/kucingkresek.jpg',
   },
 ]
 
-// event handlers
 function selectAmount(amount) {
   selectedAmount.value = amount
   customAmount.value = null
