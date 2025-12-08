@@ -1,5 +1,6 @@
 import express from "express";
 import { db } from "../db.js";
+<<<<<<< HEAD
 import multer from "multer";
 
 const router = express.Router();
@@ -30,11 +31,22 @@ router.get("/cats", async (req, res) => {
     console.log(formatted);
     res.json(formatted);
 
+=======
+
+const router = express.Router();
+
+// GET semua kucing
+router.get("/cats", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM cats");
+    res.json(rows);
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
+<<<<<<< HEAD
 
 /* ------------------ ADD CAT + UPLOAD PHOTO ------------------ */
 router.post("/add-cat", upload.single("image"), async (req, res) => {
@@ -48,12 +60,20 @@ router.post("/add-cat", upload.single("image"), async (req, res) => {
       [name, age, gender, breed, description, image]
     );
 
+=======
+// POST tambah kucing baru
+router.post("/add-cat", async (req, res) => {
+  const { name, age, breed } = req.body;
+  try {
+    await db.query("INSERT INTO cats (name, age, breed) VALUES (?, ?, ?)", [name, age, breed]);
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
     res.json({ message: "Cat added successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
+<<<<<<< HEAD
 
 
 
@@ -124,4 +144,6 @@ router.get("/users", async (req, res) => {
     }
 });
 
+=======
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 export default router;

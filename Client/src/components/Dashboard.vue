@@ -1,14 +1,22 @@
 <template>
   <div class="relative z-10 p-6 mt-20 bg-gray-50 min-h-screen">
+<<<<<<< HEAD
 
     <!-- Switch User/Kucing + Search -->
+=======
+    <!-- Tombol Switch + Search + Filter -->
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
     <div class="flex flex-wrap items-center space-x-4 mb-6 relative z-20">
       <button
         @click="changeType('Kucing')"
         :class="[currentType === 'Kucing'
             ? 'bg-gray-400 text-white shadow-md'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+<<<<<<< HEAD
           'px-4 py-2 rounded-lg text-sm font-semibold transition']"
+=======
+          'px-4 py-2 rounded-lg text-sm font-semibold transition duration-150 ease-in-out focus:outline-none']"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
       >
         Kucing
       </button>
@@ -18,17 +26,29 @@
         :class="[currentType === 'User'
             ? 'bg-gray-400 text-white shadow-md'
             : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+<<<<<<< HEAD
           'px-4 py-2 rounded-lg text-sm font-semibold transition']"
+=======
+          'px-4 py-2 rounded-lg text-sm font-semibold transition duration-150 ease-in-out focus:outline-none']"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
       >
         User
       </button>
 
+<<<<<<< HEAD
+=======
+      <!-- Search Box -->
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
       <div class="relative flex-grow max-w-lg">
         <input
           type="text"
           v-model="searchQuery"
           placeholder="Search..."
+<<<<<<< HEAD
           class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-200 placeholder-gray-500 border-none focus:ring-1 focus:ring-gray-500"
+=======
+          class="w-full pl-10 pr-4 py-2 rounded-lg border-none focus:ring-1 focus:ring-gray-500 bg-gray-200 placeholder-gray-500"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
         />
         <svg
           class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500"
@@ -44,9 +64,37 @@
           />
         </svg>
       </div>
+<<<<<<< HEAD
     </div>
 
     <!-- Table -->
+=======
+
+      <!-- Filter -->
+      <div class="relative">
+        <button
+          class="flex items-center px-4 py-2 bg-gray-200 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-300 focus:outline-none"
+        >
+          Filter
+          <svg
+            class="ml-2 h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabel Data -->
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
     <div class="bg-white shadow overflow-hidden sm:rounded-lg relative z-10">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
@@ -56,7 +104,11 @@
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Gambar</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+<<<<<<< HEAD
                 {{ currentType === 'Kucing' ? 'Jenis' : 'Role' }}
+=======
+                {{ currentType === 'Kucing' ? 'Jenis' : 'Peran' }}
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 {{ currentType === 'Kucing' ? 'Umur' : 'Kontak' }}
@@ -69,6 +121,7 @@
           <tbody class="bg-white divide-y divide-gray-200">
             <tr
               v-for="item in filteredData"
+<<<<<<< HEAD
               :key="item.id"
               class="hover:bg-gray-50"
             >
@@ -87,11 +140,35 @@
                   >
                     <span v-if="currentType === 'User'">👤</span>
                     <span v-else>🐾</span>
+=======
+              :key="item.id + item.name"
+              class="hover:bg-gray-50"
+            >
+              <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ item.id }}</td>
+
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img
+                      v-if="item.img"
+                      :src="item.img"
+                      :alt="item.name"
+                      class="h-10 w-10 rounded-full object-cover"
+                    />
+                    <div
+                      v-else
+                      class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-white"
+                    >
+                      <span v-if="currentType === 'User'">👤</span>
+                      <span v-else>🐾</span>
+                    </div>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                   </div>
                 </div>
               </td>
 
               <td class="px-6 py-4 text-sm text-gray-500">{{ item.name }}</td>
+<<<<<<< HEAD
               <td class="px-6 py-4 text-sm text-gray-500">{{ item.role }}</td>
               <td class="px-6 py-4 text-sm text-gray-500">{{ item.contact }}</td>
               <td class="px-6 py-4 text-sm text-gray-500">{{ item.location }}</td>
@@ -100,6 +177,20 @@
                 <span @click="handleAction('Detail', item)" class="text-indigo-600 cursor-pointer hover:text-indigo-900">Detail</span>
                 <button @click="handleAction('Edit', item)" class="text-gray-400 hover:text-gray-700">✏️</button>
                 <button @click="handleAction('Delete', item)" class="text-gray-400 hover:text-gray-700">🗑️</button>
+=======
+              <td class="px-6 py-4 text-sm text-gray-500">{{ currentType === 'Kucing' ? item.breed : item.role }}</td>
+              <td class="px-6 py-4 text-sm text-gray-500">{{ currentType === 'Kucing' ? item.age : item.contact }}</td>
+              <td class="px-6 py-4 text-sm text-gray-500">{{ item.location }}</td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm flex space-x-2">
+                <span class="text-indigo-600 cursor-pointer hover:text-indigo-900" @click="handleAction('Detail', item)">Detail</span>
+                <button @click="handleAction('Edit', item)" class="text-gray-400 hover:text-gray-700">
+                  ✏️
+                </button>
+                <button @click="handleAction('Delete', item)" class="text-gray-400 hover:text-gray-700">
+                  🗑️
+                </button>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
               </td>
             </tr>
           </tbody>
@@ -107,19 +198,65 @@
       </div>
     </div>
 
+<<<<<<< HEAD
+=======
+    <!-- Tombol Mengambang -->
+    <div class="fixed bottom-6 right-6 flex flex-col space-y-3 z-30">
+      <!-- Report Button -->
+      <button
+        @click="handleReport"
+        class="flex items-center space-x-2 px-4 py-2 bg-red-400 text-white rounded-full shadow-lg hover:bg-red-500 focus:outline-none"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"/>
+        </svg>
+        <span>Report</span>
+      </button>
+
+      <!-- Donasi Button -->
+      <button
+        @click="handleDonate"
+        class="flex items-center space-x-2 px-4 py-2 bg-green-400 text-white rounded-full shadow-lg hover:bg-green-500 focus:outline-none"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8c-1.657 0-3 1.567-3 3.5S10.343 15 12 15s3-1.567 3-3.5S13.657 8 12 8z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 12a8 8 0 0116 0v4a4 4 0 01-8 0" />
+        </svg>
+        <span>Donasi</span>
+      </button>
+    </div>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   </div>
 </template>
 
 <script setup>
+<<<<<<< HEAD
 import { ref, computed, onMounted } from "vue";
 import { DashboardApi } from "@/api/dashboardApi";
 
 const catData = ref([]);
 const userData = ref([]);
+=======
+import { ref, computed } from "vue";
+
+const catData = ref([
+  { id: "#001", img: "https://i.imgur.com/Gj3Hj0c.jpg", name: "Milo", breed: "Persian Breeds", age: "7 Month", location: "Bandung" },
+  { id: "#002", img: "https://i.imgur.com/Gj3Hj0c.jpg", name: "Bimo", breed: "Maine Coon", age: "12 Month", location: "Jakarta" },
+]);
+
+const userData = ref([
+  { id: "#001", img: "https://i.imgur.com/3YfB0yv.jpg", name: "Ujang", role: "Adapter", contact: "089158139581", location: "Bandung" },
+  { id: "#002", img: null, name: "Siti", role: "Donatur", contact: "081234567890", location: "Surabaya" },
+]);
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 
 const currentType = ref("Kucing");
 const searchQuery = ref("");
 
+<<<<<<< HEAD
 // ✅ Fetch USERS (benar)
 onMounted(async () => {
   try {
@@ -192,11 +329,44 @@ const filteredData = computed(() => {
 
 const changeType = type => {
   currentType.value = type;
+=======
+const tableData = computed(() => (currentType.value === "Kucing" ? catData.value : userData.value));
+
+const filteredData = computed(() => {
+  if (!searchQuery.value) return tableData.value;
+  const query = searchQuery.value.toLowerCase();
+  return tableData.value.filter((item) => {
+    const fields = [item.id, item.name, item.location];
+    if (currentType.value === "Kucing") fields.push(item.breed, item.age);
+    else fields.push(item.role, item.contact);
+    return fields.some((val) => String(val).toLowerCase().includes(query));
+  });
+});
+
+const changeType = (newType) => {
+  currentType.value = newType;
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   searchQuery.value = "";
 };
 
 const handleAction = (action, item) => {
+<<<<<<< HEAD
   alert(`${action} untuk ${item.name} (ID: ${item.id})`);
 };
 </script>
 
+=======
+  alert(`Anda memilih ${action} untuk ${item.name} (${item.id})`);
+};
+
+const handleReport = () => {
+  alert("Ada laporan baru! Admin akan segera meninjau data report.");
+  console.log("Report dikirim ke admin ✅");
+};
+
+const handleDonate = () => {
+  alert("Terima kasih atas donasinya! Admin akan mencatat transaksi ini.");
+  console.log("Donasi diterima oleh admin 💚");
+};
+</script>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332

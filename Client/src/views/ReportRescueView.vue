@@ -10,6 +10,7 @@
       <!-- Form -->
       <form
         @submit.prevent="submitReport"
+<<<<<<< HEAD
         class="bg-[#FCD34D] p-6 sm:p-10 rounded-3xl shadow-2xl space-y-6 border border-[#FFBC00]"
       >
         <!-- Upload Foto -->
@@ -19,6 +20,15 @@
         >
           <!-- Jika belum upload foto -->
           <label v-if="previewImages.length === 0" for="photos" class="cursor-pointer">
+=======
+        class="bg-[#2a2a2a] p-6 sm:p-10 rounded-3xl shadow-2xl space-y-6 border border-[#3d3d3d]"
+      >
+        <!-- Upload Foto -->
+        <div
+          class="bg-[#3b3b3b] p-6 rounded-xl text-center shadow-inner border border-[#4a4a4a]"
+        >
+          <label for="photos" class="cursor-pointer">
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-10 w-10 mx-auto text-[#d4b97d]"
@@ -40,6 +50,7 @@
             </svg>
             <p class="text-[#e6dccb] font-semibold mt-2">Upload Photos</p>
           </label>
+<<<<<<< HEAD
 
           <!-- Jika foto sudah diupload, tampilkan preview -->
           <div v-else class="grid grid-cols-2 gap-3 mt-3">
@@ -48,6 +59,8 @@
             </div>
           </div>
 
+=======
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <input
             type="file"
             id="photos"
@@ -58,37 +71,62 @@
           />
         </div>
 
+<<<<<<< HEAD
 
         <!-- Input fields -->
         <label class="block">
           <span class="text-black font-semibold">Name</span>
+=======
+        <!-- Input fields -->
+        <label class="block">
+          <span class="text-[#e6dccb] font-semibold">Name</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <input
             v-model="form.name"
             type="text"
             placeholder="Nama Kucing (jika tahu)"
+<<<<<<< HEAD
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
+=======
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           />
         </label>
 
         <label class="block">
+<<<<<<< HEAD
           <span class="text-black font-semibold">Age</span>
+=======
+          <span class="text-[#e6dccb] font-semibold">Age</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <input
             v-model="form.age"
             type="text"
             placeholder="Estimasi Umur"
+<<<<<<< HEAD
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
+=======
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           />
         </label>
 
         <label class="block">
+<<<<<<< HEAD
           <span class="text-black font-semibold">Gender</span>
           <select
             v-model="form.gender"
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
+=======
+          <span class="text-[#e6dccb] font-semibold">Gender</span>
+          <select
+            v-model="form.gender"
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
           >
             <option value="" disabled>Pilih Jenis Kelamin</option>
@@ -99,34 +137,55 @@
         </label>
 
         <label class="block">
+<<<<<<< HEAD
           <span class="text-black font-semibold">Breeds</span>
+=======
+          <span class="text-[#e6dccb] font-semibold">Breeds</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <input
             v-model="form.breeds"
             type="text"
             placeholder="Ras (Domestik/Persia/dll.)"
+<<<<<<< HEAD
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
+=======
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
           />
         </label>
 
         <label class="block">
+<<<<<<< HEAD
           <span class="text-black font-semibold">Reporter's contact</span>
+=======
+          <span class="text-[#e6dccb] font-semibold">Reporter's contact</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <input
             v-model="form.reporterContact"
             type="tel"
             placeholder="Nomor Telepon/Email"
+<<<<<<< HEAD
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
+=======
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           />
         </label>
 
         <label class="block">
+<<<<<<< HEAD
           <span class="text-black font-semibold">Last Location</span>
+=======
+          <span class="text-[#e6dccb] font-semibold">Last Location</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <input
             v-model="form.lastLocation"
             type="text"
             placeholder="Alamat/Deskripsi Lokasi"
+<<<<<<< HEAD
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all mb-4"
             required
@@ -140,11 +199,30 @@
 
         <label class="block">
           <span class="text-black font-semibold">Description</span>
+=======
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+                   focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all mb-4"
+            required
+          />
+          <div class="h-40 bg-[#444] rounded-lg overflow-hidden shadow-md flex items-center justify-center">
+            <p class="p-4 text-sm text-[#bfbfbf] text-center">
+              Placeholder Peta - Integrasi Map API akan dilakukan di sini
+            </p>
+          </div>
+        </label>
+
+        <label class="block">
+          <span class="text-[#e6dccb] font-semibold">Description</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           <textarea
             v-model="form.description"
             rows="4"
             placeholder="Jelaskan kondisi kucing, ciri-ciri khusus, dan perilaku."
+<<<<<<< HEAD
             class="w-full mt-2 p-3 text-black bg-[#FFFFFF] border-none rounded-md shadow-sm 
+=======
+            class="w-full mt-2 p-3 text-[#f1e7d0] bg-[#3b3b3b] border-none rounded-md shadow-sm 
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
                    focus:ring-[#d4b97d] focus:border-[#d4b97d] placeholder-[#c6bfae] transition-all"
             required
           ></textarea>
@@ -153,12 +231,19 @@
         <!-- Tombol -->
         <button
           type="submit"
+<<<<<<< HEAD
           class="w-full py-3 text-lg font-bold text-black rounded-lg shadow-lg transition-all duration-60000 bg-[#FFA500] hover:bg-[#FF8C00] transform hover:scale-[1.01]"
+=======
+          class="w-full py-3 text-lg font-bold text-white rounded-lg shadow-lg transition-all duration-300 bg-[#f76c5b] hover:bg-[#e65c4b] transform hover:scale-[1.01]"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
         >
           Make a report
         </button>
       </form>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
     </div>
 
     <!-- Kucing dekorasi -->
@@ -172,6 +257,7 @@
   </main>
 </template>
 
+<<<<<<< HEAD
 
 <script setup>
 import { ref, onMounted } from "vue";
@@ -242,6 +328,10 @@ onMounted(() => {
 
 //untuk preview gambar saat user add laporan
 const previewImages = ref([]);
+=======
+<script setup>
+import { ref } from 'vue';
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 
 const form = ref({
   photos: [],
@@ -249,11 +339,16 @@ const form = ref({
   age: '',
   gender: '',
   breeds: '',
+<<<<<<< HEAD
   reporterContact:'',
+=======
+  reporterContact: '',
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   lastLocation: '',
   description: '',
 });
 
+<<<<<<< HEAD
 //upload dan preview photo
 const handleFileUpload = (event) => {
   const files = Array.from(event.target.files);
@@ -309,4 +404,15 @@ const submitReport = async () => {
 };
 
 
+=======
+const handleFileUpload = (event) => {
+  form.value.photos = Array.from(event.target.files);
+  console.log('Files uploaded:', form.value.photos.map((f) => f.name));
+};
+
+const submitReport = () => {
+  console.log('Report Submitted:', form.value);
+  alert(`Laporan tentang ${form.value.name || 'kucing tak bernama'} telah dibuat!`);
+};
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 </script>

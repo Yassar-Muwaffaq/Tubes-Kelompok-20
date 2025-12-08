@@ -21,7 +21,11 @@
         <div class="mt-16 space-y-4">
           <div class="w-6 h-6 bg-gray-300 rounded-full opacity-50"></div>
           <div class="w-4 h-4 bg-gray-300 rounded-full opacity-70 ml-2"></div>
+<<<<<<< HEAD
         </div>  
+=======
+        </div>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 
         <div class="flex-grow">
           <h2 class="text-3xl font-extrabold text-gray-800 mb-4">
@@ -46,7 +50,11 @@
               <p class="text-sm italic mt-2">{{ cat.description }}</p>
             </div>
             <img
+<<<<<<< HEAD
               :src="cat.image"
+=======
+              :src="cat.imageUrl"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
               :alt="cat.name"
               class="w-32 h-32 object-cover rounded-lg shadow-lg"
             />
@@ -142,7 +150,11 @@
 
           <button
             type="submit"
+<<<<<<< HEAD
             class="w-full mt-4 bg-[#ed8b3c] text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all"
+=======
+            class="w-full mt-4 bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition-all"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           >
             Kirim Formulir Adopsi
           </button>
@@ -155,6 +167,7 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
@@ -165,11 +178,75 @@ const router = useRouter();
 
 const cat = ref(null);
 const isLoading = ref(false);
+=======
+import ContactUs from "@/components/ContactUs.vue";
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+
+const cats = [
+  {
+    id: 1,
+    name: "Milo",
+    age: "7 Bulan",
+    breed: "Persian Breeds",
+    location: "Bandung",
+    description:
+      "Milo adalah kucing jantan berusia 7 bulan yang aktif dan sangat ramah. Dia cocok untuk keluarga dengan anak-anak.",
+    imageUrl: "https://i.imgur.com/Gj3Hj0c.jpg",
+  },
+  {
+    id: 2,
+    name: "Luna",
+    age: "1 Tahun",
+    breed: "British Shorthair",
+    location: "Jakarta",
+    description:
+      "Luna memiliki bulu abu-abu halus dan mata bulat besar. Dia tenang, manja, dan suka tidur di pangkuan.",
+    imageUrl: "https://i.imgur.com/s7ZzvED.jpg",
+  },
+  {
+    id: 3,
+    name: "Oreo",
+    age: "5 Bulan",
+    breed: "Domestic Short Hair",
+    location: "Surabaya",
+    description:
+      "Oreo adalah kucing lucu penuh energi yang suka bermain bola dan mengejar mainan.",
+    imageUrl: "https://i.imgur.com/jf2rFj3.jpg",
+  },
+  {
+    id: 4,
+    name: "Simba",
+    age: "2 Tahun",
+    breed: "Maine Coon",
+    location: "Yogyakarta",
+    description:
+      "Simba punya tubuh besar tapi berhati lembut. Cocok untuk rumah dengan ruang luas.",
+    imageUrl: "https://i.imgur.com/szU2Q7I.jpg",
+  },
+  {
+    id: 5,
+    name: "Nala",
+    age: "9 Bulan",
+    breed: "Siamese",
+    location: "Denpasar",
+    description:
+      "Nala sangat komunikatif dan suka bermanja. Sudah divaksin lengkap dan steril.",
+    imageUrl: "https://i.imgur.com/6rRZQlx.jpg",
+  },
+];
+
+const cat = ref(null);
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 const form = ref({
   name: "",
   email: "",
   phone: "",
   address: "",
+<<<<<<< HEAD
   agreed: false
 });
 
@@ -184,16 +261,29 @@ onMounted(async () => {
     console.error(err);
     cat.value = null;
   }
+=======
+  agreed: false,
+});
+
+onMounted(() => {
+  const id = parseInt(route.params.id);
+  cat.value = cats.find((c) => c.id === id) || null;
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 });
 
 const goToTerms = () => router.push("/terms");
 
+<<<<<<< HEAD
 const handleSubmit = async () => {
+=======
+const handleSubmit = () => {
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   if (!form.value.agreed) {
     alert("Harap centang persetujuan Syarat & Ketentuan terlebih dahulu.");
     return;
   }
 
+<<<<<<< HEAD
   isLoading.value = true;
 
   try {
@@ -222,3 +312,9 @@ const handleSubmit = async () => {
 };
 </script>
 
+=======
+  alert(`Formulir adopsi untuk ${cat.value.name} telah berhasil dikirim!`);
+  console.log("Form Data:", form.value);
+};
+</script>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332

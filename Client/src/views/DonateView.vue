@@ -41,7 +41,11 @@
           v-model.number="customAmount"
           type="number"
           placeholder="Enter custom amount (Rp)"
+<<<<<<< HEAD
           class="w-2/3 sm:w-1/2 border border-[#FCD34D] bg-[#FCD34D] rounded-full px-5 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+          class="w-2/3 sm:w-1/2 border border-gray-300 rounded-full px-5 py-2 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
         />
       </div>
 
@@ -71,6 +75,7 @@
         <button
           @click="donate"
           :disabled="!finalAmount || !selectedMethod"
+<<<<<<< HEAD
           class="px-8 py-3 rounded-full font-semibold bg-orange text-gray transition-all"
           :class="[
             finalAmount && selectedMethod
@@ -79,6 +84,16 @@
           ]"
         >
           Donate Now 
+=======
+          class="px-8 py-3 rounded-full font-semibold text-white transition-all"
+          :class="[
+            finalAmount && selectedMethod
+              ? 'bg-blue-600 hover:bg-blue-700'
+              : 'bg-gray-300 cursor-not-allowed'
+          ]"
+        >
+          Donate Now ❤️
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
         </button>
       </div>
     </div>
@@ -109,10 +124,17 @@ const finalAmount = computed(() => customAmount.value || selectedAmount.value)
 
 // payment methods
 const paymentMethods = [
+<<<<<<< HEAD
   { name: 'qris', label: 'QRIS', icon: '/images/icons/qris.jpg' },
   { name: 'bca', label: 'BCA Transfer', icon: '/images/icons/bank.jpg' },
   { name: 'gopay', label: 'GoPay', icon: '/images/icons/gopay.jpg' },
   { name: 'ovo', label: 'OVO', icon: '/images/icons/ovo.jpg' },
+=======
+  { name: 'qris', label: 'QRIS', icon: '/images/icons/qris.svg' },
+  { name: 'bca', label: 'BCA Transfer', icon: '/images/icons/bank.svg' },
+  { name: 'gopay', label: 'GoPay', icon: '/images/icons/gopay.svg' },
+  { name: 'ovo', label: 'OVO', icon: '/images/icons/ovo.svg' },
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 ]
 const selectedMethod = ref(null)
 
@@ -121,17 +143,29 @@ const impacts = [
   {
     title: '50+ Cats Rescued',
     desc: 'We’ve successfully rescued more than 50 cats this year from dangerous environments.',
+<<<<<<< HEAD
     image: '/images/home/kucingsakit.jpg',
+=======
+    image: '/images/header/Cat 9.jpg',
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   },
   {
     title: 'Healthy Meals Daily',
     desc: 'Your donations provide food for our rescued cats every single day.',
+<<<<<<< HEAD
     image: '/images/home/kucingdonate.jpg',
+=======
+    image: '/images/header/Cat 9.jpg',
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   },
   {
     title: 'Medical Care',
     desc: 'Donations help cover vaccination, sterilization, and emergency vet treatments.',
+<<<<<<< HEAD
     image: '/images/home/kucingkresek.jpg',
+=======
+    image: '/images/header/Cat 9.jpg',
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   },
 ]
 

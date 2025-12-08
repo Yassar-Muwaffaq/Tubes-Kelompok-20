@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🐱 Adopt Center
 
 ![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=flat&logo=vuedotjs&logoColor=%234FC08D)
@@ -128,3 +129,6 @@ Pastikan Anda telah menginstal **Node.js** (versi LTS direkomendasikan).
 
 ---
 Dibuat dengan ❤️ oleh Tim Adopt Center
+=======
+# Tubes-Kelompok-20
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332

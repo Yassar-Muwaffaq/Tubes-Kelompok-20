@@ -6,6 +6,7 @@
         <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black tracking-tight">
           News About Us
         </h1>
+<<<<<<< HEAD
 
         <p class="text-black mt-2 text-xs sm:text-sm md:text-base lg:text-lg">
           Get the latest stories from our cat community,
@@ -17,10 +18,20 @@
             class="py-1.5 px-2 border-2 rounded-full border-[#ED8B3C] bg-[#ED8B3C] text-white hover:brightness-90 transition-all"
           >
             More News...
+=======
+        <p class="text-black mt-2 text-xs sm:text-sm md:text-base lg:text-lg">
+          Get the latest stories from our cat community,
+          <a
+            href="/news"
+                  class="py-1.5 px-2 border-2 rounded-full border-[#ED8B3C] bg-[#ED8B3C] text-white hover:brightness-90 transition-all"
+                >
+                  More News...
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           </a>
         </p>
       </div>
 
+<<<<<<< HEAD
       <!-- KALAU TIDAK ADA NEWS -->
       <div v-if="newsList.length === 0" class="text-center py-10">
         <p class="text-gray-600 text-lg font-medium">
@@ -31,12 +42,20 @@
       <!-- KALAU ADA NEWS -->
       <div
         v-else
+=======
+      <!-- Scroll Horizontal -->
+      <div
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
         class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 hide-scrollbar"
       >
         <!-- Kartu berita -->
         <div
           v-for="(news, index) in newsList"
+<<<<<<< HEAD
           :key="news.id ?? index"
+=======
+          :key="index"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
           class="flex-none bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.03]
                  transition-all snap-start overflow-hidden border border-gray-100 cursor-pointer
                  w-[85%] sm:w-[60%] md:w-[45%] lg:w-[30%] xl:w-[25%]"
@@ -45,7 +64,11 @@
           <!-- Gambar -->
           <div class="relative">
             <img
+<<<<<<< HEAD
               :src="news.image || '/images/placeholder.jpg'"
+=======
+              :src="news.image"
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
               alt="Gambar berita"
               class="w-full h-[160px] sm:h-[180px] md:h-[200px] lg:h-[220px] object-cover"
             />
@@ -65,7 +88,11 @@
                      text-[12px] sm:text-[13px] md:text-[14px] lg:text-[15px]
                      leading-relaxed line-clamp-3"
             >
+<<<<<<< HEAD
               {{ news.desc || news.content || '' }}
+=======
+              {{ news.desc }}
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
             </p>
           </div>
 
@@ -79,14 +106,22 @@
                 @click.stop="toggleLike(index)"
                 class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-200 text-[12px] font-medium transition"
               >
+<<<<<<< HEAD
                 ❤️ <span>{{ news.likes ?? 0 }}</span>
+=======
+                ❤️ <span>{{ news.likes }}</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
               </button>
 
               <button
                 @click.stop="openModal(index)"
                 class="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-200 text-[12px] font-medium transition"
               >
+<<<<<<< HEAD
                 💬 <span>{{ (news.comments?.length) || 0 }}</span>
+=======
+                💬 <span>{{ news.comments.length }}</span>
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
               </button>
 
               <button
@@ -108,7 +143,11 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <!-- POPUP -->
+=======
+    <!-- POPUP (dari file terpisah) -->
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
     <NewsModal
       :visible="modalVisible"
       :news="newsList[selectedIndex]"
@@ -121,6 +160,7 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD
 import { ref, onMounted } from 'vue'
 import NewsModal from './NewsPopUp.vue'
 import { NewsApi } from '@/api/newsApi.js'
@@ -162,6 +202,49 @@ onMounted(async () => {
   }
 })
 
+=======
+import { ref } from 'vue'
+import NewsModal from './NewsPopUp.vue'
+
+const newsList = ref([
+  {
+    title: 'Ada Kucing Kece',
+    desc: 'Kucing ini baru saja memenangkan lomba kecantikan hewan tingkat nasional. Ia dikenal karena bulunya yang lembut dan tingkahnya yang menggemaskan.',
+    image: '/images/home/Cat 9.jpg',
+    likes: 20,
+    comments: [{ user: 'Mia', text: 'Lucunyaaa 😻', likes: 2 }],
+    reactions: {},
+  },
+  {
+    title: 'Kucing Diselamatkan dari Pohon',
+    desc: 'Seekor kucing berhasil diselamatkan oleh tim damkar setelah terjebak di atas pohon selama dua hari.',
+    image: '/images/home/Cat 9.jpg',
+    likes: 54,
+    comments: [{ user: 'Luna', text: 'Terima kasih pahlawan damkar!', likes: 3 }],
+    reactions: {},
+  },
+  {
+    title: 'Kucing Baru di Shelter',
+    desc: 'Shelter kami baru kedatangan kucing kecil lucu berumur 2 bulan yang sedang mencari rumah baru.',
+    image: '/images/home/Cat 9.jpg',
+    likes: 13,
+    comments: [],
+    reactions: {},
+  },
+  {
+    title: 'Festival Kucing Tahunan',
+    desc: 'Event besar untuk para pecinta kucing digelar minggu ini, menghadirkan puluhan ras dan atraksi unik.',
+    image: '/images/home/Cat 9.jpg',
+    likes: 89,
+    comments: [{ user: 'Dina', text: 'Seru banget tahun lalu!', likes: 1 }],
+    reactions: {},
+  },
+])
+
+const selectedIndex = ref(null)
+const modalVisible = ref(false)
+
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 function openModal(index) {
   selectedIndex.value = index
   modalVisible.value = true
@@ -175,6 +258,7 @@ function onModalClose() {
 }
 
 function toggleLike(index) {
+<<<<<<< HEAD
   if (!newsList.value[index]) return
   newsList.value[index].likes = (newsList.value[index].likes ?? 0) + 1
 }
@@ -185,16 +269,27 @@ function share(index) {
   navigator.clipboard.writeText(
     window.location.origin + '/news/' + encodeURIComponent(n.title || '')
   )
+=======
+  newsList.value[index].likes++
+}
+
+function share(index) {
+  navigator.clipboard.writeText(window.location.origin + '/news/' + encodeURIComponent(newsList.value[index].title))
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 }
 
 function addReaction(index, emoji) {
   const n = newsList.value[index]
+<<<<<<< HEAD
   if (!n) return
   n.reactions = n.reactions || {}
+=======
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   n.reactions[emoji] = (n.reactions[emoji] || 0) + 1
 }
 
 function onModalUpdate({ index, updatedNews }) {
+<<<<<<< HEAD
   if (typeof index === 'number' && newsList.value[index]) {
     newsList.value[index] = {
       ...newsList.value[index],
@@ -208,6 +303,9 @@ function onModalUpdate({ index, updatedNews }) {
         ...updatedNews
       }
   }
+=======
+  newsList.value[index] = { ...updatedNews }
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 }
 </script>
 

@@ -78,6 +78,7 @@
     />
   </section>
 </template>
+<<<<<<< HEAD
 <script setup>
 import { ref, onMounted } from "vue"
 import NewsModal from "../components/NewsPopUp.vue"
@@ -129,6 +130,43 @@ onMounted(fetchNews)
 
 // --- fitur UI sama seperti NewsView lama ---
 
+=======
+
+<script setup>
+import { ref } from "vue"
+import NewsModal from "../components/NewsPopUp.vue"
+
+const newsList = ref([
+  {
+    title: "Ada Kucing Kece",
+    desc: "Kucing ini baru saja memenangkan lomba kecantikan hewan tingkat nasional.",
+    image: "/images/home/Cat 9.jpg",
+    likes: 20,
+    isLiked: false,
+    comments: [
+      { user: "Mia", text: "Lucunyaaa 😻", likes: 2 },
+      { user: "Rafi", text: "Kucingnya mirip punyaku!", likes: 1 },
+    ],
+    newComment: "",
+    reactions: {},
+  },
+  {
+    title: "Kucing Diselamatkan dari Pohon",
+    desc: "Seekor kucing berhasil diselamatkan oleh tim damkar setelah terjebak dua hari.",
+    image: "/images/home/Cat 9.jpg",
+    likes: 54,
+    isLiked: false,
+    comments: [{ user: "Luna", text: "Terima kasih pahlawan damkar!", likes: 3 }],
+    newComment: "",
+    reactions: {},
+  },
+])
+
+const emojis = [{ char: "😺" }, { char: "😻" }, { char: "😹" }]
+
+const selectedNews = ref(null)
+
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
 const toggleLike = (index) => {
   const news = newsList.value[index]
   news.isLiked = !news.isLiked
@@ -150,6 +188,10 @@ const openPopup = (news) => {
 }
 
 const handleUpdateNews = (updated) => {
+<<<<<<< HEAD
+=======
+  // bisa di-sync ke backend di sini nanti
+>>>>>>> 494cb00548449884cfd4b65249dd6f8b89415332
   console.log("Updated news:", updated)
 }
 </script>
